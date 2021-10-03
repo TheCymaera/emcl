@@ -1,0 +1,89 @@
+.emcl-code.block {
+	display: flex;
+	font-family: var(--font-family-monospace);
+	padding: 0;
+
+	> emcl-code-gutter {
+		flex: 0;
+		flex-basis: 1.5em;
+		text-align: right;
+		color: var(--foreground-4);
+		// border-right: 1px solid var(--foreground-4);
+		padding: var(--code-block-padding) 1.5em;
+		pointer-events: none;
+		user-select: none;
+	}
+
+	> emcl-code-content {
+		flex: 1;
+		white-space: pre;
+		padding: var(--code-block-padding);
+		padding-left: 0;
+		overflow-x: auto;
+		cursor: text;
+	}
+}
+
+
+emcl-code-token {
+	&:hover {
+		background-color: var(--code-background-hover);
+	}
+
+	&[data-unexpected],
+	&[data-type=ILLEGAL] {
+		box-shadow: 0 0 .3em .1em red;
+	}
+
+	&[data-type=ILLEGAL] {
+		color: red;
+		text-decoration: underline;
+		font-weight: bold;
+	}
+
+	&[data-type=MCCOMMENT_LITERAL],
+	&[data-type=COMMENT] {
+		color: var(--green);
+	}
+
+	&[data-type=IMPORT],
+	&[data-type=MCCOMMAND],
+	&[data-type=MCSUBCOMMAND],
+	&[data-type=MCFUNCTION],
+	&[data-type=FOR],
+	&[data-type=WHILE],
+	&[data-type=EXECUTE] {
+		color: var(--yellow);
+	}
+
+	&[data-type=CONST],
+	&[data-type=TYPE] {
+		color: var(--cerulean);
+	}
+
+	&[data-type=ALIAS],
+	&[data-type=SCORE],
+	&[data-type=NBT] {
+		color: var(--cerulean);
+	}
+
+
+	&[data-type=NAMESPACED_ID],
+	&[data-type=SCOREBOARD_OBJECTIVE],
+	&[data-type=IDENTIFIER] {
+		color: #c3ebee;
+	}
+
+
+	&[data-type=BOOLEAN_LITERAL],
+	&[data-type=STRING_LITERAL],
+	&[data-type=FLOAT_LITERAL],
+	&[data-type=INT_LITERAL] {
+		color: #d16856;
+	}
+
+	&[data-type=MCCOMMAND_LITERAL] {
+		color: var(--orange);
+	}
+
+}

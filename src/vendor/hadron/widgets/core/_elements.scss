@@ -1,0 +1,146 @@
+:root {
+	tab-size: var(--tab-size);
+	-moz-tab-size: var(--tab-size);
+	font-family: var(--font-family);
+	font-size: 16px;
+	line-height: var(--line-height);
+	color: var(--foreground);
+	background: var(--background);
+	
+	-webkit-tap-highlight-color: transparent;
+	
+	-webkit-text-size-adjust: none;
+	text-size-adjust: none;
+}
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6,
+p, ol, ul, hr {
+	margin: .5em 0;
+}
+
+ol, ul {
+	padding-left: 1.5em;
+}
+
+hr {
+	border: none;
+	border-bottom: var(--divider);
+}
+
+a, .a {
+	color: var(--highlight);
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+a:focus-visible {
+	outline: currentColor solid .2em;
+	outline-offset: .2em;
+}
+
+small {
+	color: var(--foreground-4);
+	font-size: 85%;
+}
+
+code,
+code-block, .code-block {
+	font-family: var(--font-family-monospace);
+	background-color: var(--code-background);
+}
+
+code {
+	padding: 0 .1em;
+}
+
+code-block, .code-block {
+	display: block;
+	padding: var(--code-block-padding);
+
+	white-space: nowrap;
+	overflow: auto;
+}
+
+circular-progress, .circular-progress {
+	display: inline-block;
+	width: 1em;
+	height: 1em;
+	border-radius: 50%;
+	border: 0.15em solid transparent;
+	border-top-color: currentColor;
+	box-sizing: border-box;
+	background-color: transparent;
+	
+	animation-name: rotate-360;
+	animation-duration: 1s;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;
+}
+
+list-view {
+	background: var(--background);
+	overflow: auto;
+	
+	> .list-view-item {
+		padding: .5em;
+		h1, h2, h3, h4, h5, h6 {
+			margin: 0;
+		}
+
+		&.hoverable, 
+		&.clickable {
+			&:hover:not(.selected) {
+				background-color: var(--background-2);
+			}	
+		}
+	
+		&.clickable {
+			cursor: pointer;
+			&:active:not(.selected) {
+				background-color: var(--background-4);
+			}
+		}
+	
+		&.selected {
+			background-color: var(--background-3);
+		}
+	}
+}
+
+// do not theme
+wrapper-, .wrapper {
+	display: contents;
+}
+
+// do not theme
+buffer-, .buffer {
+	visibility: hidden;
+}
+
+// do not theme
+expand-children, .expand-children {
+	display: block;
+	position: relative;
+
+	> * {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		box-sizing: border-box;
+	}
+}
+
+backdrop-, .backdrop {
+	display: block;
+	background-color: var(--backdrop-background);
+	color: var(--backdrop-foreground);
+}

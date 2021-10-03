@@ -1,0 +1,26 @@
+// Run a command
+/tellraw @a "Hello World!";
+mccommand 'tellraw @a "Hello World!"';
+
+// Declare a variable
+// Supported data types: "int", "float", "const string"
+int myVariable = 1;
+
+// Assign to a variable
+myVariable = (1 + 4) * 3;
+
+// Variables in different scopes can share the same name.
+const string player = "John";
+mccommand "kill "+player;
+{
+	const string player = "Sam";
+	mccommand "kill "+player;
+}
+
+// Read and write to scoreboard
+int score "myObjective" "myPlayer" = 1;
+
+// Read and write to NBT
+float nbt "entity" "@e[limit=1]" "Pos[0]" "double" = 1.3;
+
+import "./controlFlow.emcl";

@@ -1,0 +1,8 @@
+scaffold-, .scaffold {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+
+	> * { flex: 0 0 content; }
+	> :nth-child(1) { display: flex; }
+}

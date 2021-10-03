@@ -1,0 +1,45 @@
+:root {
+	--button-padding: .8em;
+	--button-border-color-focus: var(--highlight);
+}
+
+button, .button {
+	font: inherit;
+
+	color: var(--foreground);
+	background-color: var(--button-background-color);
+
+	padding: var(--button-padding);
+	border: var(--button-border);
+	border-radius: var(--button-border-radius);
+	box-sizing: border-box;
+	
+	cursor: pointer;
+	transition: background-color 0.1s ease;
+
+	outline: none;
+
+	&:hover { background-color: var(--button-background-color-hover); }
+	&:active { background-color: var(--button-background-color-active); }
+	&:focus-visible { border-color: var(--button-border-color-focus); }
+}
+
+.button-confirm {
+	background-color: var(--highlight);
+	color: var(--highlight-contrast);
+	border: none;
+	
+
+	&:hover { background-color: var(--highlight-hover); }
+	&:active, &:focus-visible { background-color: var(--highlight-active); }
+}
+
+
+text-button, .text-button {
+	color: var(--highlight);
+	cursor: pointer;
+	transition: color .1s ease-in-out;
+
+	&:hover { color: var(--highlight-hover); }
+	&:active { color: var(--highlight-active); }
+}

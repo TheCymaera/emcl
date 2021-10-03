@@ -1,0 +1,36 @@
+/*
+<!-- Search Input Example -->
+<input-with-icon>
+	<i class="fa fa-search"></i>
+	<input type="text" class="text-only" placeholder="Search"/>
+</input-with-icon>
+*/
+:root {
+	--input-with-icon-height: 2.3em;
+	--input-with-icon-padding: .2em;
+}
+
+input-with-icon, .input-with-icon {
+	position: relative;
+	display: block;
+	width: 100%;
+
+	padding: 0 var(--input-with-icon-padding);
+	box-sizing: border-box;
+
+	> :first-child {
+		position: absolute;
+		height: var(--input-with-icon-height);
+		width: var(--input-with-icon-height);
+	
+		display: grid;
+		place-items: center;
+	}
+
+	> input {
+		height: var(--input-with-icon-height);
+		width: 100%;
+
+		padding-left: var(--input-with-icon-height) !important;
+	}
+}

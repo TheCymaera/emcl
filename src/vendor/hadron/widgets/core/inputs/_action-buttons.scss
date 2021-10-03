@@ -1,0 +1,56 @@
+action-buttons, .action-buttons {
+	display: grid;
+	padding: .5em;
+	grid-gap: .5em;
+
+	&:is([data-x], [data-y]) {
+		position: absolute;
+	}
+
+	&[data-x=left] 		{ left: 0; }
+	&[data-x=right] 	{ right: 0; }
+	&[data-y=top] 		{ top: 0; }
+	&[data-y=bottom] 	{ bottom: 0; }
+
+	&[data-x=left-safe] 	{ left: env(safe-area-inset-left); }
+	&[data-x=right-safe] 	{ right: env(safe-area-inset-right); }
+	&[data-y=top-safe] 		{ top: env(safe-area-inset-top); }
+	&[data-y=bottom-safe] 	{ bottom: env(safe-area-inset-bottom); }
+
+	&[data-direction=vertical] > * {
+		grid-auto-flow: column;
+	}
+}
+
+action-button, .action-button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	height: 2.7em;
+	width: 2.7em;
+	font-size: 100%;
+
+	border: none;
+	border-radius: 50%;
+
+	background-color: var(--action-button-background);
+	color: var(--action-button-foreground);
+	box-shadow: 0 0 .2em rgba(0, 0, 0, 1);
+
+	outline: none;
+	cursor: pointer;
+	transition: background-color .2s ease;
+
+	&:hover {
+		background-color: var(--action-button-background-hover);
+	}
+
+	&:active {
+		background-color: var(--action-button-background-active);
+	}
+	
+	&:focus-visible {
+		box-shadow: 0 0 0 .2em var(--highlight);
+	}
+}

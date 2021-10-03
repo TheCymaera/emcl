@@ -1,0 +1,23 @@
+{
+	"entry": "./main.emcl",
+
+	"initializer": "pong:init",
+	"destructor": "pong:destroy",
+
+	"scoreboardNamespace": "pong.i.",
+	"functionNamespace": "pong:internal/",
+
+	"onLoad": [ 
+		"pong:init" 
+	],
+	"onTick": [
+		"pong:move-paddles",
+		"pong:move-pucks"
+	],
+	"packMeta": {
+		"pack": {
+			"pack_format": 7,
+			"description": "Atari Pong for Minecraft"
+		}
+	}
+}

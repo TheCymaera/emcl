@@ -1,0 +1,65 @@
+alias selfPosX float nbt "entity" "@s" "Pos[0]" "double";
+alias selfPosZ float nbt "entity" "@s" "Pos[2]" "double";
+
+alias nearestPuckX float nbt "entity" "@e[tag=pong.puck,sort=nearest,limit=1]" "Pos[0]" "double";
+alias nearestPuckZ float nbt "entity" "@e[tag=pong.puck,sort=nearest,limit=1]" "Pos[2]" "double";
+
+float paddleSpeed = 0;
+mcfunction "pong:calc-paddle-speed" {
+	paddleSpeed = .2;
+	execute "as @e[tag=pong.puck,limit=1,distance=..9]" paddleSpeed += .13;
+	execute "as @e[tag=pong.puck,limit=1,distance=..7]" paddleSpeed += .13;
+	execute "as @e[tag=pong.puck,limit=1,distance=..5]" paddleSpeed += .13;
+	execute "as @e[tag=pong.puck,limit=1,distance=..3]" paddleSpeed += .13;
+}
+
+mcfunction "pong:summon-x-paddle" {
+	/summon armor_stand ~ ~-1 ~ {Tags:["pong.paddle","pong.xPaddle"],NoGravity:1b,Invisible:1b}
+}
+
+mcfunction "pong:summon-z-paddle" {
+	/summon armor_stand ~ ~-1 ~ {Tags:["pong.paddle","pong.zPaddle"],NoGravity:1b,Invisible:1b}
+}
+
+mcfunction "pong:move-paddles" {
+	execute "as @e[tag=pong.paddle] at @s" {
+		execute "if block ~ ~ ~ minecraft:air" {
+			/fill ~-3 ~ ~-3 ~3 ~ ~3 minecraft:black_concrete replace minecraft:observer
+			/kill @s
+		}
+	}
+	execute "as @e[tag=pong.xPaddle] at @s" {
+		/function pong:calc-paddle-speed;
+		
+		if (selfPosZ > nearestPuckZ) execute "if block ~ ~ ~-2 minecraft:black_concrete" 	selfPosZ -= paddleSpeed;
+		if (selfPosZ < nearestPuckZ) execute "if block ~ ~ ~2 minecraft:black_concrete" 	selfPosZ += paddleSpeed;
+
+		/function pong:draw-x-paddle;
+	}
+	execute "as @e[tag=pong.zPaddle] at @s" {
+		/function pong:calc-paddle-speed;
+
+		if (selfPosX > nearestPuckX) execute "if block ~-2 ~ ~ minecraft:black_concrete" 	selfPosX -= paddleSpeed;
+		if (selfPosX < nearestPuckX) execute "if block ~2 ~ ~ minecraft:black_concrete" 	selfPosX += paddleSpeed;
+		
+		/function pong:draw-z-paddle;
+	}
+}
+
+mcfunction "pong:draw-x-paddle" {
+	/fill ~ ~ ~-3 ~ ~ ~3 minecraft:black_concrete replace minecraft:observer
+	/setblock ~ ~ ~-1 minecraft:observer[facing=south]
+	/setblock ~ ~ ~1 minecraft:observer[facing=north]
+	/setblock ~ ~ ~ minecraft:observer[facing=west]
+
+	execute (selfPosX > nearestPuckX) /setblock ~ ~ ~ minecraft:observer[facing=east]
+}
+
+mcfunction "pong:draw-z-paddle" {
+	/fill ~-3 ~ ~ ~3 ~ ~ minecraft:black_concrete replace minecraft:observer
+	/setblock ~-1 ~ ~ minecraft:observer[facing=east]
+	/setblock ~1 ~ ~ minecraft:observer[facing=west]
+	/setblock ~ ~ ~ minecraft:observer[facing=north]
+
+	execute (selfPosZ > nearestPuckZ) /setblock ~ ~ ~ minecraft:observer[facing=south]
+}

@@ -1,0 +1,9 @@
+// import modules
+import "./paddles.emcl";
+import "./pucks.emcl";
+
+// remove scoreboard objectives when the program is destroyed
+mcfunction "pong:destroy" {
+	/scoreboard objectives remove pong.velX
+	/scoreboard objectives remove pong.velZ
+}

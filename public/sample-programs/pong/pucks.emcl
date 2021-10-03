@@ -1,0 +1,103 @@
+// create scoreboard objectives
+/scoreboard objectives add pong.velX dummy "Velocity X"
+/scoreboard objectives add pong.velZ dummy "Velocity Z"
+
+alias selfPosX float nbt "entity" "@s" "Pos[0]" "double";
+alias selfPosZ float nbt "entity" "@s" "Pos[2]" "double";
+
+alias selfVelX float score "pong.velX" "@s";
+alias selfVelZ float score "pong.velZ" "@s";
+
+const float PUCK_BOUNCE_SPEED = .2;
+const float PUCK_LAUNCH_SPEED = .45;
+
+mcfunction "pong:summon-puck" {
+	/summon armor_stand ~ ~-1.6 ~ {Tags:["pong.puck", "pong.uninitialized"],NoGravity:1b,ArmorItems:[{},{},{},{id:"minecraft:white_concrete",Count:1b}],HandItems:[{},{}]}
+	execute "as @e[tag=pong.uninitialized]" {
+		selfVelX = PUCK_BOUNCE_SPEED;
+		selfVelZ = PUCK_BOUNCE_SPEED;
+		/tag @s remove pong.uninitialized
+	}
+}
+
+mcfunction "pong:puck-launch-x" {
+	selfVelX = PUCK_LAUNCH_SPEED;
+	selfVelZ /= 1.7;
+}
+
+mcfunction "pong:puck-launch-z" {
+	selfVelX /= 1.7;
+	selfVelZ = PUCK_LAUNCH_SPEED;
+}
+
+mcfunction "pong:puck-bounce-x" {
+	selfVelX = PUCK_BOUNCE_SPEED;
+	selfVelZ = PUCK_BOUNCE_SPEED;
+}
+
+mcfunction "pong:puck-bounce-nx" {
+	selfVelX = -PUCK_BOUNCE_SPEED;
+	selfVelZ = PUCK_BOUNCE_SPEED;
+}
+
+mcfunction "pong:puck-bounce-z" {
+	selfVelX = PUCK_BOUNCE_SPEED;
+	selfVelZ = PUCK_BOUNCE_SPEED;
+}
+
+mcfunction "pong:puck-bounce-nz" {
+	selfVelX = PUCK_BOUNCE_SPEED;
+	selfVelZ = -PUCK_BOUNCE_SPEED;
+}
+
+mcfunction "pong:move-pucks" {
+	execute "as @e[tag=pong.puck] at @s positioned ~ ~1.5 ~" {
+		// kill puck if it enters red concrete
+		execute "if block ~.3 ~ ~ minecraft:red_concrete" 	/kill @s
+		execute "if block ~-.3 ~ ~ minecraft:red_concrete" 	/kill @s
+		execute "if block ~ ~ ~.3 minecraft:red_concrete" 	/kill @s
+		execute "if block ~ ~ ~-.3 minecraft:red_concrete"	/kill @s
+
+		// note that observer directions are reversed as the arrows point backwards.
+	
+		// launch x
+		execute "if block ~.3 ~ ~ minecraft:observer[facing=east]" 	/function pong:puck-launch-x
+		execute "if block ~-.3 ~ ~ minecraft:observer[facing=west]" /function pong:puck-launch-x
+
+		// bounce x
+		execute "if block ~ ~ ~.3 minecraft:observer[facing=west]" 	/function pong:puck-bounce-x
+		execute "if block ~ ~ ~-.3 minecraft:observer[facing=west]" /function pong:puck-bounce-x
+		
+		// bounce -x
+		execute "if block ~ ~ ~.3 minecraft:observer[facing=east]" 	/function pong:puck-bounce-nx
+		execute "if block ~ ~ ~-.3 minecraft:observer[facing=east]" /function pong:puck-bounce-nx
+
+		// flip x
+		execute "unless block ~.3 ~ ~ minecraft:black_concrete"  if (selfVelX > 0) selfVelX *= -1;
+		execute "unless block ~-.3 ~ ~ minecraft:black_concrete" if (selfVelX < 0) selfVelX *= -1;
+
+		// move x
+		selfPosX += selfVelX;
+	}
+
+	execute "as @e[tag=pong.puck] at @s positioned ~ ~1.5 ~" {
+		// launch z
+		execute "if block ~ ~ ~.3 minecraft:observer[facing=south]" /function pong:puck-launch-z
+		execute "if block ~ ~ ~-.3 minecraft:observer[facing=north]"/function pong:puck-launch-z
+		
+		// bounce z
+		execute "if block ~.3 ~ ~ minecraft:observer[facing=north]" /function pong:puck-bounce-z
+		execute "if block ~-.3 ~ ~ minecraft:observer[facing=north]"/function pong:puck-bounce-z
+		
+		// bounce -z
+		execute "if block ~.3 ~ ~ minecraft:observer[facing=south]" /function pong:puck-bounce-nz
+		execute "if block ~-.3 ~ ~ minecraft:observer[facing=south]"/function pong:puck-bounce-nz
+
+		// flip z
+		execute "unless block ~ ~ ~.3 minecraft:black_concrete"  if (selfVelZ > 0) selfVelZ *= -1;
+		execute "unless block ~ ~ ~-.3 minecraft:black_concrete" if (selfVelZ < 0) selfVelZ *= -1;
+
+		// move z
+		selfPosZ += selfVelZ;
+	}
+}

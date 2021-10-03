@@ -1,0 +1,188 @@
+@import "themes/_colors.scss";
+
+// common
+:root {
+	--background: var(--background-1);
+	--foreground: var(--foreground-1);
+
+	// font
+	--font-family: Arial, Helvetica, sans-serif;
+	--font-family-monospace:  'Courier New', Courier, monospace;
+	--tab-size: 4;
+	--line-height: 1.5;
+
+	// highlight
+	--highlight				: var(--cyan);
+	--highlight-hover		: var(--cyan-600);
+	--highlight-active		: var(--cyan-700);
+	--highlight-contrast	: #fff;
+	
+	// app-bar
+	--app-bar-content-height: 3.3em;
+	
+	// bottom-navigation-bar
+	--bottom-navigation-bar-height: 3em;
+	--bottom-navigation-bar-icon-size: 1.2em;
+	--bottom-navigation-bar-background: var(--background);
+	--bottom-navigation-bar-foreground: var(--foreground);
+	--bottom-navigation-bar-background-hover: var(--background);
+	--bottom-navigation-bar-foreground-hover: var(--foreground-2);
+	--bottom-navigation-bar-background-active: var(--background);
+	--bottom-navigation-bar-foreground-active: var(--foreground-4);
+	--bottom-navigation-bar-background-selected: var(--background);
+	--bottom-navigation-bar-foreground-selected: var(--highlight);
+	--bottom-navigation-bar-separator: 1px solid var(--background);
+	--bottom-navigation-bar-transition: .05s ease-in-out;
+
+	// tabs
+	--tabs-height: 3em;
+	--tabs-icon-size: 1.2em;
+	--tabs-background: var(--background);
+	--tabs-foreground: var(--foreground);
+	--tabs-background-hover: var(--background-2);
+	--tabs-foreground-hover: var(--foreground);
+	--tabs-background-active: var(--background-5);
+	--tabs-foreground-active: var(--foreground);
+	--tabs-background-selected: var(--background-4);
+	--tabs-foreground-selected: var(--foreground);
+	--tabs-transition: .05s ease-in-out;
+	
+	// navigation-rail
+	--navigation-rail-width: 4em;
+	--navigation-rail-icon-size: 1.4em;
+	--navigation-rail-background: var(--background);
+	--navigation-rail-foreground: var(--foreground);
+	--navigation-rail-background-hover: var(--background);
+	--navigation-rail-foreground-hover: var(--foreground-2);
+	--navigation-rail-background-active: var(--background);
+	--navigation-rail-foreground-active: var(--foreground-4);
+	--navigation-rail-background-selected: var(--background);
+	--navigation-rail-foreground-selected: var(--highlight);
+	--navigation-rail-separator: 1px solid var(--background);
+	--navigation-rail-transition: .05s ease-in-out;
+	
+	// button
+	--button-border-radius: .25em;
+
+	// floating action button
+	--action-button-background: var(--foreground);
+	--action-button-foreground: var(--background);
+	--action-button-background-hover: var(--foreground-2);
+	--action-button-background-active: var(--foreground-4);
+
+	// card
+	--card-border-radius: .2em;
+	--card-transition: .1s ease-in-out;
+
+	// divider
+	--divider: 1px solid var(--divider-color);
+
+	// input
+	--input-placeholder-color: #bbb;
+	--input-border-color-focus: var(--highlight);
+
+	// code
+	--code-block-padding: .5em;
+}
+
+// light theme
+:root {
+	@for $i from 1 through 5 {
+		$change: $i - 1;
+		--background-#{$i}: #{lighten(#fff, $change * 2%)};
+		--foreground-#{$i}: #{darken(#444, $change * 10%)};
+	}
+
+	// backdrop
+	--backdrop-background: #f0f0f0;
+	--backdrop-foreground: var(--foreground);
+
+	// app-bar
+	--app-bar-background: var(--background);
+	--app-bar-foreground: var(--foreground);
+	--app-bar-separator	: 1px solid #eaeaea;
+
+	// context-menu
+	--context-menu-background		: var(--background);
+	--context-menu-background-hover	: var(--background-2);
+	--context-menu-background-active: var(--background-4);
+	
+	// code
+	--code-background		: #ececec;
+	--code-background-hover	: #eeeeee;
+
+	// divider
+	--divider-color: #aaa;
+
+	// slider
+	--slider-track-background: #eaeaea;
+	--slider-track-background-hover: #f4f4f4;
+
+	// input
+	--input-background		: var(--background);
+	--input-background-hover	: var(--background);
+	--input-background-active	: var(--background);
+	--input-border				: .07em solid;
+	--input-border-radius		: .25em;
+	--input-border-color		: #bbb;
+	--input-border-color-hover	: #ccc;
+	--input-border-color-active	: #ddd;
+
+	// button
+	--button-border: .05em solid var(--input-border-color);
+	--button-background-color: var(--background);
+	--button-background-color-hover: var(--background-2);
+	--button-background-color-active: var(--background-4);
+}
+
+// dark theme
+[data-theme=dark] {
+	@import "themes/dark-theme-scrollbar";
+
+	@for $i from 1 through 5 {
+		$change: $i - 1;
+		--background-#{$i}: #{lighten(#424242, $change * 2%)};
+		--foreground-#{$i}: #{darken(#fff, $change * 10%)};
+	}
+
+	// backdrop
+	--backdrop-background: #303030;
+	--backdrop-foreground: var(--foreground);
+
+	// app-bar
+	--app-bar-background	: var(--background);
+	--app-bar-foreground	: var(--foreground);
+	--app-bar-separator		: 1px solid #555;
+
+	// context-menu
+	--context-menu-background		: #222;
+	--context-menu-background-hover	: #2a2a2a;
+	--context-menu-background-active: #2c2c2c;
+	
+	// code
+	--code-background		: var(--input-background);
+	--code-background-hover	: var(--input-background-hover);
+
+	// divider
+	--divider-color: #aaa;
+
+	// slider
+	--slider-track-background: #eaeaea;
+	--slider-track-background-hover: #f4f4f4;
+
+	// input
+	--input-background			: #222;
+	--input-background-hover	: #2d2d2d;
+	--input-background-active	: #2f2f2f;
+	--input-border				: .07em solid;
+	--input-border-radius		: .25em;
+	--input-border-color		: transparent;
+	--input-border-color-hover	: transparent;
+	--input-border-color-active	: transparent;
+	
+	// button
+	--button-border: none;
+	--button-background-color: #505050;
+	--button-background-color-hover: #555;
+	--button-background-color-active: #666;
+}

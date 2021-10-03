@@ -1,0 +1,16 @@
+{
+	"entry": "./main.emcl",
+
+	"initializer": "3d-grapher:init",
+	"destructor": "3d-grapher:destroy",
+
+	"scoreboardNamespace": "3d-grapher.i.",
+	"functionNamespace": "3d-grapher:internal/",
+
+	"packMeta": {
+		"pack": {
+			"pack_format": 7,
+			"description": "Animated 3D Grapher for Minecraft"
+		}
+	}
+}

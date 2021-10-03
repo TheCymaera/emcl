@@ -1,0 +1,42 @@
+tabs-, .tabs- {	
+	display: flex;
+	height: var(--tabs-height);
+	box-sizing: border-box;
+
+	background-color: var(--tabs-background);
+	color: var(--tabs-foreground);
+
+	> *,
+	tabs-tab, .tabs-tab {
+		transition:
+			background-color var(--tabs-transition),
+			color var(--tabs-transition);
+
+		flex: 1;
+		cursor: pointer;
+
+		i {
+			font-size: var(--tabs-icon-size);
+		}
+
+		&:hover {
+			background-color: var(--tabs-background-hover);
+			color: var(--tabs-foreground-hover);
+		}
+
+		&:active {
+			background-color: var(--tabs-background-active);
+			color: var(--tabs-foreground-active);
+		}
+
+		&.selected {
+			background-color: var(--tabs-background-selected);
+			color: var(--tabs-foreground-selected);
+		}
+
+		&.square {
+			flex: unset;
+			flex-basis: var(--tabs-height);
+		}
+	}
+}

@@ -1,0 +1,19 @@
+{
+  "name": "emcl-web-compiler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+	"build": "rollup -c & sass src/app/main.scss public/dst/main.css --style=compressed",
+	"build-watch": "rollup -c --w & sass src/app/main.scss public/dst/main.css --style=compressed --watch"
+  },
+  "author": "Cymaera",
+  "license": "ISC",
+  "dependencies": {
+    "@rollup/plugin-node-resolve": "^13.0.4",
+    "@rollup/plugin-typescript": "^8.2.5",
+    "rollup": "^2.56.3",
+    "rollup-plugin-sourcemaps": "^0.6.3",
+    "rollup-plugin-terser": "^7.0.2"
+  }
+}

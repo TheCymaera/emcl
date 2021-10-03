@@ -1,0 +1,126 @@
+canvas-app {
+	--sidebar-width: 400px;
+	--sidebar-height: 50%;
+	--sidebar-transition: .4s ease;
+
+	position: relative;
+	overflow: hidden;
+	background: var(--backdrop-background);
+}
+
+.canvas-app-disable-transitions {
+	--sidebar-transition: 0s ease;
+}
+
+canvas-app-sidebar,
+canvas-app-main,
+canvas-app-dialog {
+	position: absolute;
+	display: block;
+}
+
+canvas-app-sidebar {
+	background: var(--background);
+	box-shadow: 0 0 .4em #0002;
+	padding: 1em;
+	box-sizing: border-box;
+	overflow: auto;
+}
+
+canvas-app-main {
+	> aspect-ratio {
+		position: absolute;
+		top: 1em;
+		bottom: 1em;
+		left: 4em;
+		right: 4em;
+	}
+	
+	> aspect-ratio > * {
+		background-color: white;
+		box-shadow: 0 0 1em #0002;
+	}
+}
+
+canvas-app-dialog {
+	display: block;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity .1s ease;
+
+	background-color: var(--background);
+}
+
+canvas-app[data-dialog-opened] canvas-app-dialog {
+	opacity: 1;
+	pointer-events: all;
+}
+
+canvas-app-sidebar,
+canvas-app-main {
+	top: 0;
+	bottom: 0;
+	transition:
+		left var(--sidebar-transition),
+		right var(--sidebar-transition);
+}
+
+canvas-app-sidebar {
+	left: 0;
+	right: calc(100% - var(--sidebar-width));
+}
+
+canvas-app-main {
+	left: var(--sidebar-width);
+	right: 0;
+}
+
+canvas-app:not([data-sidebar-opened]) {
+	canvas-app-sidebar {
+		left: calc(0px - var(--sidebar-width));
+		right: 100%;
+	}
+	
+	canvas-app-main {
+		left: 0;
+	}
+}
+
+
+/* =============== MOBILE ============== */
+.canvas-app-mobile {
+	canvas-app-sidebar, canvas-app-main {
+		left: 0 !important;
+		right: 0 !important;
+		transition:
+			top var(--sidebar-transition),
+			bottom var(--sidebar-transition);
+	}
+	
+	canvas-app-main {
+		top: 0;
+		bottom: var(--sidebar-height);
+	}
+
+	canvas-app-sidebar {
+		top: calc(100% - var(--sidebar-height));
+		bottom: 0;
+	}
+
+	
+	&:not([data-sidebar-opened]) {
+		canvas-app-main {
+			bottom: 0;
+		}
+		
+		canvas-app-sidebar {
+			top: 100%;
+			bottom: calc(0px - var(--sidebar-height));
+		}
+	}
+}

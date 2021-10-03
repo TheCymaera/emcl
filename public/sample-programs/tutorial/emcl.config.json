@@ -1,0 +1,19 @@
+{
+	"entry": "./main.emcl",
+
+	"initializer": "tutorial:init",
+	"destructor": "tutorial:destroy",
+
+	"scoreboardNamespace": "tutorial.i.",
+	"functionNamespace": "tutorial:internal/",
+
+	"onLoad": [ 
+		"tutorial:init" 
+	],
+	"packMeta": {
+		"pack": {
+			"pack_format": 7,
+			"description": "Tutorial for the EMCL compiler"
+		}
+	}
+}

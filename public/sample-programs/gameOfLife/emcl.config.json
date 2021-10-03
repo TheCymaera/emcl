@@ -1,0 +1,19 @@
+{
+	"entry": "./main.emcl",
+
+	"initializer": "gol:init",
+	"destructor": "gol:destroy",
+
+	"scoreboardNamespace": "gol.i.",
+	"functionNamespace": "gol:internal/",
+
+	"onLoad": [ 
+		"gol:init" 
+	],
+	"packMeta": {
+		"pack": {
+			"pack_format": 7,
+			"description": "Conway's Game of Life for Minecraft"
+		}
+	}
+}
