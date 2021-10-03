@@ -29,6 +29,11 @@ compiler.console = console;
 compiler.fileSystem = fileSystem;
 
 export async function openLoadFSAProjectDialog() {
+	if (!window["showDirectoryPicker"]) {
+		alert(fsaNoSupportMessage);
+		return;
+	}
+
 	const handle = await showDirectoryPicker().catch(()=>undefined);
 	if (!handle) return;
 	const uri = 
@@ -49,3 +54,6 @@ export const onOpenTab: Set<(index: number)=>any> = new Set;
 export function openTab(index: number) {
 	for (const callback of onOpenTab) callback(index);
 }
+
+const fsaNoSupportMessage = "The File System Access API is not supported in this browser. Consider switching to a Chromium browser like Google Chrome, Opera, or Microsoft Edge.";
+if (!window["showDirectoryPicker"]) alert(fsaNoSupportMessage);
