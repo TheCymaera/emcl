@@ -1,5 +1,5 @@
-import { FileSystem } from "./FileSystem";
-import { ReadonlyURI, URI } from "./URI";
+import { FileSystem } from "./FileSystem.js";
+import { ReadonlyURI, URI } from "./URI.js";
 
 export class FSAFileSystem extends FileSystem {
 	scheme = "fsa";
@@ -24,17 +24,17 @@ export class FSAFileSystem extends FileSystem {
 	}
 
 	async getURI(handle: FileSystemHandle): Promise<undefined|URI> {
-		if (handle.kind === "file") {
+		if (handle instanceof FileSystemFileHandle) {
 			for (const [authority, root] of this.handles) {
-				if (root.kind === "file" && await root.isSameEntry(handle)) {
+				if (root instanceof FileSystemFileHandle && await root.isSameEntry(handle)) {
 					return new URI(this.scheme, authority);
 				}
 			}
 		} else {
 			for (const [authority, root] of this.handles) {
-				if (root.kind === "directory") {
+				if (root instanceof FileSystemDirectoryHandle) {
 					const path = await root.resolve(handle);
-					if (path) return new URI(this.scheme, authority, path);
+					if (path) return new URI(this.scheme, authority, "/" + path.join("/"));
 				}
 			}
 		}
@@ -43,49 +43,44 @@ export class FSAFileSystem extends FileSystem {
 	}
 
 	async readFile(uri: ReadonlyURI) {
-		const handle = await this._getHandle(uri, false, "file");
+		const handle = await this._getFile(uri, false);
 		const file = await handle.getFile();
 		return await file.arrayBuffer();
 	}
 
 	async writeFile(uri: ReadonlyURI, content: ArrayBuffer) {
-		const handle = await this._getHandle(uri, true, "file");
+		const handle = await this._getFile(uri, true);
+		// TODO: Remove when TS updates definitions.
+		// @ts-expect-error
 		const writable = await handle.createWritable();
 		await writable.write(content);
 		await writable.close();
 	}
 
 	async createDirectory(uri: ReadonlyURI) {
-		await this._getHandle(uri, true, "directory");
+		await this._getDirectory(uri, true);
 	}
 
-	private async _getHandle(uri: ReadonlyURI, create: boolean, kind: "file"): Promise<FileSystemFileHandle>;
-	private async _getHandle(uri: ReadonlyURI, create: boolean, kind: "directory"): Promise<FileSystemDirectoryHandle>;
-	private async _getHandle(uri: ReadonlyURI, create: boolean, kind: "file"|"directory") {
-		if (uri.isRoot()) return await this._getRoot(uri, kind);
-		const parent = await this._getParent(uri, create);
-		if (kind === "file") {
-			return await parent.getFileHandle(uri.filename, { create });
-		} else {
-			return await parent.getDirectoryHandle(uri.filename, { create });
+	private async _getFile(uri: ReadonlyURI, create: boolean) {
+		if (uri.isOrigin()) return await this._getRoot(uri, "file");
+		const parent = await this._getDirectory(uri, create);
+		return await parent.getFileHandle(uri.filename(), { create });
+	}
+
+	private async _getDirectory(uri: ReadonlyURI, create: boolean) {
+		let handle = await this._getRoot(uri, "directory");
+		for (const segment of uri.directorySegments()) {
+			handle = await handle.getDirectoryHandle(segment, { create })
 		}
+		return handle;
 	}
 
 	private async _getRoot(uri: ReadonlyURI, kind: "file"): Promise<FileSystemFileHandle>;
 	private async _getRoot(uri: ReadonlyURI, kind: "directory"): Promise<FileSystemDirectoryHandle>;
-	private async _getRoot(uri: ReadonlyURI, kind: "file"|"directory"): Promise<FileSystemHandle>;
 	private async _getRoot(uri: ReadonlyURI, kind: "file"|"directory"): Promise<FileSystemHandle> {
 		const handle = this.handles.get(uri.authority);
 		if (!handle) throw new Error(`Resource not found.`);
-		if (uri.isRoot() || handle.kind !== kind) throw new Error(`Illegal Operation!`);
-		return handle;
-	}
-
-	private async _getParent(uri: ReadonlyURI, create: boolean) {
-		let handle = await this._getRoot(uri, "directory");
-		for (const segment of uri.directory) {
-			handle = await handle.getDirectoryHandle(segment, { create })
-		}
+		if (uri.isOrigin() || handle.kind !== kind) throw new Error(`Illegal Operation!`);
 		return handle;
 	}
 }

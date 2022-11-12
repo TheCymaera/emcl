@@ -16,5 +16,14 @@
 		"removeComments": true,
 
 		"skipDefaultLibCheck": true,
+
+		"baseUrl": ".",
+		"paths": {
+			"file-system": ["./src/file-system/index.ts"],
+			"mil": ["./src/mil/index.ts"],
+			"mil-optimizer": ["./src/mil-optimizer/index.ts"],
+			"emcl-linter": ["./src/emcl-linter/index.ts"],
+			"emcl": ["./src/emcl/index.ts"],
+		}
 	}
 }

@@ -1,0 +1,152 @@
+// remove old marker
+/kill @e[tag=snakeGame.marker]
+
+mcfunction "snake-game:destroy" {
+	execute "as @e[tag=snakeGame.marker] at @s" /fill 0 ~-1 0 20 ~1 20 minecraft:air;
+	/kill @e[tag=snakeGame.marker];
+}
+
+const int DIRECTION_X = 0;
+const int DIRECTION_Z = 1;
+const int DIRECTION_NX = 2;
+const int DIRECTION_NZ = 3;
+
+int snakePosX = 0;
+int snakePosZ = 0;
+int snakeLength = 0;
+int snakeDirection = 0;
+
+// create marker and reset grid
+/summon minecraft:armor_stand ~ ~-1 ~ {Invisible:1b, Marker:1b, NoGravity:1b, Tags:["snakeGame.marker"]}
+/function snake-game:reset
+
+mcfunction "snake-game:reset" {
+	snakePosX = 10;
+	snakePosZ = 10;
+	snakeLength = 3;
+	snakeDirection = DIRECTION_X;
+	
+	execute "as @e[tag=snakeGame.marker] at @s" {
+		// this layer displays and stores apples
+		/fill 0 ~1 0 20 ~1 20 minecraft:air;
+		
+		// this layer displays the snake
+		/fill 0 ~-1 0 20 ~ 20 minecraft:black_concrete;
+
+		// this layer stores data about the snake (snake segment as integer)
+		/fill 0 ~-1 0 20 ~-1 20 minecraft:barrel{Items:[{id:"minecraft:stone", Count:1b, tag:{_snakeSegment:0}}]};
+	}
+}
+
+mcfunction "snake-game:move-x" {
+	if (snakeDirection != DIRECTION_NX) snakeDirection = DIRECTION_X;
+}
+
+mcfunction "snake-game:move-z" {
+	if (snakeDirection != DIRECTION_NZ) snakeDirection = DIRECTION_Z;
+}
+
+mcfunction "snake-game:move-nx" {
+	if (snakeDirection != DIRECTION_X) snakeDirection = DIRECTION_NX;
+}
+
+mcfunction "snake-game:move-nz" {
+	if (snakeDirection != DIRECTION_Z) snakeDirection = DIRECTION_NZ;
+}
+
+mcfunction "snake-game:start" {
+	/function snake-game:reset;
+	/tag @e[tag=snakeGame.marker] add snakeGame.active;
+}
+
+mcfunction "snake-game:step" {
+	execute "as @e[tag=snakeGame.marker] as @s[tag=snakeGame.active] at @s" {
+		alias markerX double nbt "entity" "@s" "Pos[0]";
+		alias markerZ double nbt "entity" "@s" "Pos[2]";
+		alias cellSnakeSegment int nbt "block" "~ ~-1 ~" "Items[0].tag._snakeSegment";
+		
+		int appleCount = 0;
+		for (int x = 0; x <= 20; x += 1) {
+			for (int z = 0; z <= 20; z += 1) {
+				// move marker to (x, z)
+				markerX = x;
+				markerZ = z;
+				
+				execute "at @s" {
+					// count apples
+					execute "if block ~ ~1 ~ minecraft:red_carpet" {
+						++appleCount;
+					}
+
+					// display snake
+					/setblock ~ ~ ~ minecraft:black_concrete;
+					if (cellSnakeSegment > 0) {
+						cellSnakeSegment -= 1;
+						/setblock ~ ~ ~ minecraft:white_concrete;
+					}
+				}
+			}
+		}
+
+		// create apples if none are present.
+		if (!appleCount) {
+			/function snake-game:create-apple-randomly;
+			/function snake-game:create-apple-randomly;
+			/function snake-game:create-apple-randomly;
+		}
+
+
+		// update snake position
+		if (snakeDirection == DIRECTION_X) ++snakePosX;
+		if (snakeDirection == DIRECTION_Z) ++snakePosZ;
+		if (snakeDirection == DIRECTION_NX) --snakePosX;
+		if (snakeDirection == DIRECTION_NZ) --snakePosZ;
+
+		// move marker to snake position
+		markerX = snakePosX;
+		markerZ = snakePosZ;
+
+		execute "at @s" {
+			// display head
+			/fill ~ ~ ~ ~ ~ ~ minecraft:light_blue_concrete replace minecraft:black_concrete;
+
+			// handle apple
+			execute "if block ~ ~1 ~ minecraft:red_carpet" {
+				snakeLength += 1;
+				/setblock ~ ~1 ~ minecraft:air;
+				/execute as @a at @s run playsound minecraft:entity.generic.eat block @s ~ ~ ~ 1 1;
+			}
+
+			int didCollide = 0;
+
+			// handle collision with tail
+			if (cellSnakeSegment) didCollide = 1;
+
+			// handle collision with side of board
+			if (snakePosX < 0) didCollide = 1;
+			if (snakePosZ < 0) didCollide = 1;
+			if (snakePosX > 20) didCollide = 1;
+			if (snakePosZ > 20) didCollide = 1;
+
+			// update cell segment
+			cellSnakeSegment = snakeLength + 1;
+
+			if (didCollide) /function snake-game:lose;
+		}
+	}
+}
+
+mcfunction "snake-game:create-apple-randomly" {
+	execute "as @e[tag=snakeGame.marker] at @s" {
+		/spreadplayers 10 10 0 8 false @s;
+		execute "at @s" /setblock ~ ~ ~ minecraft:red_carpet;
+		/tp @s ~ ~ ~;
+	}
+}
+
+mcfunction "snake-game:lose" {
+	/tag @e[tag=snakeGame.marker] remove snakeGame.active;
+	/title @a times 1 20 5;
+	/title @a title {"text":"You Lose!", "color":"red"};
+	execute "as @a at @s" /playsound minecraft:entity.player.death block @s ~ ~ ~ 1 1;
+}

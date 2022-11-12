@@ -4,13 +4,15 @@ export class TreeBuilder<Leaf, Branch> {
 	config: TreeBuilder.Config<Leaf, Branch>;
 	
 	stack: (Leaf|Branch)[] = [];
+	map = new Map<Branch, (Leaf | Branch)[]>();
 
 	constructor(config: TreeBuilder.Config<Leaf, Branch>) {
 		this.config = config;
 	}
 
 	reset(): this {
-		this.stack.length = 0;
+		this.stack = [];
+		this.map = new Map;
 		return this;
 	}
 
@@ -23,6 +25,7 @@ export class TreeBuilder<Leaf, Branch> {
 			const replaced = this.stack.splice(-rhsLength,rhsLength);
 			const replacement = this.config.nodeConstructors[action.n]!(replaced);
 			this.stack.push(replacement);
+			this.map.set(replacement, replaced);
 			return false;
 		}
 	}

@@ -1,4 +1,4 @@
-import { ReadonlyURI } from "./URI";
+import { ReadonlyURI } from "./URI.js";
 
 export abstract class FileSystem {
 	abstract readFile(uri: ReadonlyURI): Promise<ArrayBuffer>;

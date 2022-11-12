@@ -1,5 +1,5 @@
-import { FileSystem } from "./FileSystem";
-import { ReadonlyURI } from "./URI";
+import { FileSystem } from "./FileSystem.js";
+import { ReadonlyURI } from "./URI.js";
 
 export class FetchFileSystem extends FileSystem {
 	async readFile(uri: ReadonlyURI) {

@@ -1,29 +1,28 @@
 export interface ReadonlyURI {
 	readonly scheme: string;
 	readonly authority: string;
-	readonly directory: readonly string[];
-	readonly filename: string;
+	readonly pathname: string;
+
 	clone(): URI;
-	
-	stem(): string|undefined;
-	extension(): string|undefined;
+
+	isFile(): boolean;
+	pathSegments(): string[];
+	directorySegments(): string[];
+	filename(): string;
 	slug(): string;
 
-	isRoot(): boolean;
-	hasSameRootAs(uri: ReadonlyURI): boolean;
-	contains(uri: ReadonlyURI, inclusive ?: boolean): boolean;
-	isEqualTo(uri: ReadonlyURI): boolean;
-	isParentOf(uri: ReadonlyURI): boolean;
-
+	isOrigin(): boolean;
+	hasSameOrigin(uri: ReadonlyURI): boolean;
+	
 	relativePathOf(uri: ReadonlyURI): string;
+	toString(): string;
 }
 
 export class URI implements ReadonlyURI {
 	constructor(
 		public scheme: string = "",
 		public authority: string = "",
-		public directory: string[] = [],
-		public filename: string = "",
+		public pathname: string = "/",
 	) {}
 
 	static fromString(string: string) {
@@ -34,139 +33,128 @@ export class URI implements ReadonlyURI {
 		}
 	}
 
-	setString(uriString: string): this {
-		const url = new URL(uriString);
+	clone(): URI {
+		return (new URI).set(this);
+	}
 
-		this.scheme = url.protocol.slice(0,-1);
-		if (url.pathname.startsWith("//")) {
-			this.directory = url.pathname.slice(2).split("/");
-			this.authority = this.directory.shift() || "";
-		} else {
-			this.directory = url.pathname.slice(1).split("/");
-			this.authority = url.host;
-		}
-		
-		if (url.pathname.endsWith("/")) {
-			this.directory.pop();
-		} else {
-			this.filename = this.directory.pop() || "";
-		}
+	isFile() {
+		return !this.pathname.endsWith("/");
+	}
 
+	pathSegments(): string[] {
+		return this.pathname.slice().split("/").filter(i=>i);
+	}
+
+	directorySegments(): string[] {
+		const segments = this.pathSegments();
+		if (this.isFile()) segments.pop();
+		return segments;
+	}
+
+	filename() {
+		if (!this.isFile()) return "";
+		const segments = this.pathSegments();
+		return segments.pop() ?? "";
+	}
+
+	slug() {
+		return this.pathSegments().pop() ?? this.authority;
+	}
+
+	appendString(path: string): this {
+		URI._setFromURL(this, new URL(path, this.toString()));
 		return this;
 	}
 
-	appendString(path: string, forceDirectory?: boolean): this {
-		if (path.includes(":/")) return this.setString(path);
-
-		this.filename = "";
-		for (const segment of path.split("/")) {
-			if (!segment) continue;
-			if (segment === ".") continue;
-			if (segment === "..") this.directory.pop();
-			this.directory.push(segment);
-		}
-		if (!forceDirectory && !path.endsWith("/")) this.filename = this.directory.pop() || "";
+	setString(uriString: string): this {
+		URI._setFromURL(this, new URL(uriString));
 		return this;
 	}
 
 	set(uri: ReadonlyURI): this {
 		this.scheme = uri.scheme;
 		this.authority = uri.authority;
-		this.directory = Array.from(uri.directory);
-		this.filename = uri.filename;
+		this.pathname = uri.pathname;
 		return this;
 	}
 
-	setFilename(filename: string) {
-		this.filename = filename;
-		return this;
+	isOrigin() {
+		return this.pathname === "/";
 	}
 
-	clone(): URI {
-		return (new URI).set(this);
-	}
-
-	stem(): string|undefined {
-		if (!this.filename) return undefined;
-		return this.filename.substring(0,this.filename.lastIndexOf('.')) || this.filename;
-	}
-
-	extension(): string|undefined {
-		if (!this.filename) return undefined;
-		const index  = this.filename.lastIndexOf('.');
-		return index === -1 ? "" : this.filename.substring(index);
-	}
-
-	slug(): string {
-		return this.filename || this.directory[this.directory.length - 1] || this.authority;
-	}
-	
-	isRoot(): boolean {
-		return !this.directory.length && !this.filename;
-	}
-
-	hasSameRootAs(uri: ReadonlyURI): boolean {
+	hasSameOrigin(uri: ReadonlyURI): boolean {
 		return this.scheme === uri.scheme && this.authority === uri.authority;
 	}
-	
-	contains(uri: ReadonlyURI, inclusive: boolean = false): boolean {
-		if (this.filename) return inclusive && this.isEqualTo(uri);
 
-		if (!this.hasSameRootAs(uri)) return false;
-		
-		if (this.directory.length > uri.directory.length) return false;
-		
-		if (!inclusive && 
-			this.directory.length === uri.directory.length &&
-			this.filename && !uri.filename) return false;
-		
-		for (let i = 0, l = this.directory.length; i < l; i++) {
-			if (this.directory[i] !== uri.directory[i]) return false;
+	relativePathOf(uri: ReadonlyURI): string {
+		if (!this.hasSameOrigin(uri)) return uri.toString();
+
+		const base = this.directorySegments();
+		const rel = this.directorySegments();
+
+		const contained = (array1: string[], array2: string[])=>{
+			for (let i = 0, l = array1.length; i < l; i++) {
+				if (array1[i] !== array2[i]) return false;
+			}
+			return true;
 		}
 
-		return true;
-	}
-
-	isEqualTo(uri: ReadonlyURI): boolean {
-		if (!this.hasSameRootAs(uri)) return false;
-
-		if (this.directory.length !== uri.directory.length) return false;
-
-		for (let i = 0, l = this.directory.length; i < l; i++) {
-			if (this.directory[i] !== uri.directory[i]) return false;
+		let out = "";
+		while (!contained(base, rel)) {
+			out += "../";
+			base.pop();
 		}
 
-		if (this.filename !== uri.filename) return false;
-
-		return true;
-	}
-
-	isParentOf(uri: ReadonlyURI): boolean {
-		return this.directory.length === uri.directory.length && this.contains(uri);
+		out += uri.filename();
+		return out;
 	}
 
 	toString(encode = true): string {
 		const scheme = `${this.scheme}:`;
 		const authority = this.authority ? `//${this.authority}` : "";
-		const path = "/" + (this.directory.length ? `${this.directory.join("/")}/` : "") + this.filename;
+		const pathname = this.pathname;
 
-		const uri = scheme + authority + path;
-		return encode ? encodeURI(uri) : uri;
+
+		const uri = scheme + authority + pathname;
+		return encode ? encodeURI(decodeURI(uri)) : uri;
 	}
 
-	relativePathOf(uri: ReadonlyURI): string {
-		if (!this.hasSameRootAs(uri)) return uri.toString();
+	setPathSegments(directories: string[], file?: string) {
+		this.pathname = "/"+ directories.join("/") + (file ? "/" + file : "");
+		return this;
+	}
 
-		let self = this.clone();
-		self.filename = "";
+	ascend(levels: number) {
+		const segments = this.directorySegments();
+		segments.length -= levels;
+		return this.setPathSegments(segments);
+	}
 
-		let out = "";
-		while (!self.contains(uri)) {
-			out += "../";
-			self.directory.pop();
+	descend(directories: string[], file?: string) {
+		return this.setPathSegments([...this.directorySegments(), ...directories], file);
+	}
+
+	asFile() {
+		if (this.pathname.endsWith("/")) this.pathname = this.pathname.slice(0, -1);
+		return this;
+	}
+
+	asDirectory() {
+		if (!this.pathname.endsWith("/")) this.pathname += "/";
+		return this;
+	}
+
+	private static _setFromURL(self: URI, url: URL) {
+		self.scheme = url.protocol.slice(0,-1);
+		self.authority = url.host;
+
+		if (url.pathname.startsWith("//")) {
+			const pathIndex = url.pathname.indexOf("/", 3);
+			const pathIndexCapped = pathIndex === -1 ? url.pathname.length : pathIndex;
+			self.authority = url.pathname.slice(2, pathIndexCapped);
+			self.pathname = url.pathname.slice(pathIndexCapped);
+		} else {
+			self.pathname = url.pathname;
 		}
-
-		out += uri.directory.slice(this.directory.length).join("/") + uri.filename;
-		return out;
 	}
 }

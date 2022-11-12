@@ -1,19 +1,43 @@
 {
-  "name": "emcl-web-compiler",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-	"build": "rollup -c & sass src/app/main.scss public/dst/main.css --style=compressed",
-	"build-watch": "rollup -c --w & sass src/app/main.scss public/dst/main.css --style=compressed --watch"
-  },
-  "author": "Cymaera",
-  "license": "ISC",
-  "dependencies": {
-    "@rollup/plugin-node-resolve": "^13.0.4",
-    "@rollup/plugin-typescript": "^8.2.5",
-    "rollup": "^2.56.3",
-    "rollup-plugin-sourcemaps": "^0.6.3",
-    "rollup-plugin-terser": "^7.0.2"
-  }
+	"name": "emcl",
+	"version": "1.0.0",
+	"description": "A language designed to compile to mcfunction files.",
+	"bin": {
+		"emcl": "./app-cli/dst/main.js"
+	},
+	"files": [
+		"./app-cli/**"
+	],
+	"scripts": {
+		"build": "rollup -c & sass src/app/main.scss public/dst/main.css --style=compressed",
+		"watch": "rollup -c --w & sass src/app-web/main.scss:app-web/dst/main.css --style=compressed --watch"
+	},
+	"author": "Cymaera",
+	"license": "MIT",
+	"devDependencies": {
+		"@rollup/plugin-node-resolve": "^13.0.4",
+		"@rollup/plugin-typescript": "^8.2.5",
+		"@types/node": "^18.11.9",
+		"rollup": "^2.56.3",
+		"rollup-plugin-add-shebang": "^0.3.1",
+		"rollup-plugin-sourcemaps": "^0.6.3",
+		"rollup-plugin-terser": "^7.0.2",
+		"tslib": "^2.4.1",
+		"typescript": "^4.8.4"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/TheCymaera/emcl.git"
+	},
+	"keywords": [
+		"minecraft",
+		"datapack",
+		"commands",
+		"compiler",
+		"mcfunction"
+	],
+	"bugs": {
+		"url": "https://github.com/TheCymaera/emcl/issues"
+	},
+	"homepage": "https://github.com/TheCymaera/emcl/"
 }

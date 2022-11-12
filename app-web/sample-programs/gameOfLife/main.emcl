@@ -1,0 +1,62 @@
+// remove old marker
+/kill @e[tag=gameOfLife.marker]
+
+// create new marker and empty grid
+/summon minecraft:armor_stand ~ ~-1 ~ {Invisible:1b, Marker:1b, NoGravity:1b, Tags:["gameOfLife.marker"]}
+/function game-of-life:reset
+
+const string asMarker = "as @e[tag=gameOfLife.marker] at @s";
+
+mcfunction "game-of-life:reset" {
+	execute (asMarker) /fill 0 ~-1 0 50 ~ 50 minecraft:red_concrete
+}
+
+mcfunction "game-of-life:destroy" {
+	execute (asMarker) /fill 0 ~-1 0 50 ~ 50 minecraft:air
+	/kill @e[tag=gameOfLife.marker]
+}
+
+mcfunction "game-of-life:step" {
+	execute (asMarker) {
+		// create new grid under the current grid
+		/fill 0 ~-1 0 50 ~-1 50 minecraft:red_concrete
+
+		for (int x = 0; x <= 50; x += 1) {
+			for (int z = 0; z <= 50; z += 1) {
+
+				// move marker to (x, z)
+				double nbt "entity" "@s" "Pos[0]" = x;
+				double nbt "entity" "@s" "Pos[2]" = z;
+				
+				execute "at @s" {
+					// count live neighbours
+					int liveNeighbours = 0;
+					execute "if block ~-1 ~ ~-1 minecraft:white_concrete"	liveNeighbours += 1;
+					execute "if block ~-1 ~ ~ minecraft:white_concrete"		liveNeighbours += 1;
+					execute "if block ~-1 ~ ~1 minecraft:white_concrete"  	liveNeighbours += 1;
+					execute "if block ~1 ~ ~-1 minecraft:white_concrete"  	liveNeighbours += 1;
+					execute "if block ~1 ~ ~ minecraft:white_concrete" 		liveNeighbours += 1;
+					execute "if block ~1 ~ ~1 minecraft:white_concrete" 	liveNeighbours += 1;
+					execute "if block ~ ~ ~-1 minecraft:white_concrete" 	liveNeighbours += 1;
+					execute "if block ~ ~ ~1 minecraft:white_concrete" 		liveNeighbours += 1;
+
+					// live cells with 2 neighbours survive
+					if (liveNeighbours == 2) {
+						execute "if block ~ ~ ~ minecraft:white_concrete" {
+							/setblock ~ ~-1 ~ minecraft:white_concrete
+						}
+					}
+
+					// dead cells with 3 neighbours become alive
+					if (liveNeighbours == 3) {
+						/setblock ~ ~-1 ~ minecraft:white_concrete
+					}
+				}
+			}
+		}
+
+		// swap old grid with new grid
+		/clone 0 ~-1 0 50 ~-1 50 0 ~ 0
+		/fill 0 ~-1 0 50 ~-1 50 minecraft:red_concrete
+	}
+}

@@ -1,0 +1,17 @@
+{
+	"entry": "main.emcl",
+	"destination": "./dst/",
+	"initializer": "snake-game:init",
+	"destructor": "snake-game:destroy",
+	"scoreboardNamespace": "snake-game.i",
+	"functionNamespace": "snake-game:internal/",
+	"nbtStorageNamespace": "snake-game:internal/",
+	"onLoad": [],
+	"onTick": [],
+	"packMeta": {
+		"pack": {
+			"pack_format": 7,
+			"description": "Snake Game for Minecraft"
+		}
+	}
+}

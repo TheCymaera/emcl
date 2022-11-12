@@ -48,12 +48,22 @@ export class GrammarBuilder<Leaf = string, Branch = string, Token = any> {
 	/**
 	 * Define the expression a => b (d b)*
 	 */
-	defineDelimitedList(lhs: Branch, target: Leaf|Branch, delimiter: Leaf|Branch) {
-		this.define(lhs,[target]);
+	defineDelimitedList(lhs: Branch, target: Leaf|Branch, delimiter: Leaf|Branch, allowEmpty: boolean) {
+		if (allowEmpty) this.define(lhs,[], ()=>[]);
+		this.define(lhs,[target], ([value])=>[value]);
 		this.define(lhs,[lhs,delimiter,target],([items,,newItem])=>{
 			items.push(newItem);
 			return items;
 		});
+	}
+
+	/**
+	 * Define the expression a => b d|(d b)*
+	 */
+	defineTrailingDelimitedList(lhs: Branch, nonDelimitedLHS: Branch, target: Leaf|Branch, delimiter: Leaf|Branch, allowEmpty: boolean) {
+		this.defineDelimitedList(nonDelimitedLHS, target, delimiter, allowEmpty);
+		this.define(lhs, [nonDelimitedLHS, delimiter], GrammarBuilder.REDUCE_FIRST);
+		this.define(lhs, [nonDelimitedLHS], GrammarBuilder.REDUCE_FIRST);
 	}
 	
 

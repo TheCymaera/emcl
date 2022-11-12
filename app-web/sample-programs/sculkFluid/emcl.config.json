@@ -1,0 +1,17 @@
+{
+	"entry": "./main.emcl",
+	"destination": "./dst/",
+	"initializer": "sculk-fluid:init",
+	"destructor": "sculk-fluid:destroy",
+	"scoreboardNamespace": "sculkFluid.i",
+	"functionNamespace": "sculk-fluid:internal/",
+	"nbtStorageNamespace": "sculk-fluid:internal/",
+	"onLoad": ["sculk-fluid:init"],
+	"onTick": [],
+	"packMeta": {
+		"pack": {
+			"pack_format": 7,
+			"description": "<ADD DESCRIPTION HERE>"
+		}
+	}
+}

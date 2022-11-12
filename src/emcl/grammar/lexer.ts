@@ -6,34 +6,39 @@ lexGrammar.define("WHITESPACE", /[^\S\r\n]+|(?:\r?\n)/);
 lexGrammar.define("COMMENT", /\/\/.*/);
 lexGrammar.define("COMMENT", /\/\*[^]+?\*\//);
 
-lexGrammar.define((match)=>{
-	switch (match) {
-		case "mcfunction"	: return "MCFUNCTION";
-		case "mccommand"	: return "MCCOMMAND";
-		case "mcsubcommand"	: return "MCSUBCOMMAND";
+lexGrammar.defineKeyword("MCFUNCTION", "mcfunction");
+lexGrammar.defineKeyword("SCORE", "score");
+lexGrammar.defineKeyword("NBT", "nbt");
 
-		case "score"		: return "SCORE";
-		case "nbt"			: return "NBT";
+lexGrammar.defineKeyword("ALIAS", "alias");
 
-		case "alias"		: return "ALIAS";
-		
-		case "import"		: return "IMPORT";
-		case "for"			: return "FOR";
-		case "while"		: return "WHILE";
-		case "if"			:
-		case "execute"		: return "EXECUTE";
-		
-		case "const"		: return "CONST";
-		case "int"			:
-		case "float"		:
-		case "bool"			:
-		case "void"			:
-		case "string"		:
-		case "char"			: return "TYPE";
-	}
+lexGrammar.defineKeyword("IMPORT", "import");
+lexGrammar.defineKeyword("AS", "as");
+lexGrammar.defineKeyword("FOR", "for");
+lexGrammar.defineKeyword("WHILE", "while");
+lexGrammar.defineKeyword("IF", "if");
+lexGrammar.defineKeyword("EXECUTE", "execute");
+lexGrammar.defineKeyword("RETURN", "return");
 
-	return "IDENTIFIER";
-}, /[a-zA-Z_][a-zA-Z0-9_]*/);
+lexGrammar.defineKeyword("CONST", "const");
+lexGrammar.defineKeyword("FINAL", "final");
+
+
+lexGrammar.defineKeyword("TYPE", [
+	"uint8", "byte",
+	"uint16", "short",
+	"uint32", "int",
+	"uint64", "long",
+	
+	"float",
+	"double",
+
+	"bool",
+	"void",
+	"string",
+]);
+
+lexGrammar.define("IDENTIFIER", /[a-zA-Z_][a-zA-Z0-9_]*/);
 
 lexGrammar.define("STRING_LITERAL", /"(?:\\.|[^\\"])*"/);
 lexGrammar.define("STRING_LITERAL", /'(?:\\.|[^\\'])*'/);
@@ -45,7 +50,7 @@ lexGrammar.define("INT_LITERAL", /\d+/);
 lexGrammar.define("MCCOMMENT_LITERAL", /#[^\n;]+/);
 lexGrammar.define("MCCOMMAND_LITERAL", /\/\w[^\n;]+/);
 
-for (const op of [";", ",", ":", "{", "}", "(", ")", "[", "]"]) lexGrammar.defineString(op, op);
+for (const op of [";", ",", ":", "{", "}", "(", ")", "[", "]", "."]) lexGrammar.defineString(op, op);
 
 lexGrammar.defineString("COMPOUND_ASSIGNMENT_OPERATOR",["+=","-=","*=","/=","%="]);
 lexGrammar.defineString("INC_OPERATOR", ["++", "--"]);
@@ -57,6 +62,7 @@ lexGrammar.defineString("EQUALITY_OPERATOR", ["==", "!="]);
 lexGrammar.defineString("AND_OPERATOR", "&&");
 lexGrammar.defineString("OR_OPERATOR", "||");
 
-lexGrammar.defineString("ASSIGNMENT_OPERATOR", "=");
+lexGrammar.defineString("!", "!");
+lexGrammar.defineString("=", "=");
 
 export const lexer = lexGrammar.build();

@@ -1,0 +1,122 @@
+// remove old armor stands
+/kill @e[tag=3dGrapher.marker]
+
+// define NBT references
+alias selfX (double nbt "entity" "@s" "Pos[0]");
+alias selfY (double nbt "entity" "@s" "Pos[1]");
+alias selfZ (double nbt "entity" "@s" "Pos[2]");
+const int altitude = 36;
+
+// this armor stand will be used to summon other armor stands at variable positions
+/summon minecraft:armor_stand ~ ~ ~ {NoGravity:1b,Tags:["3dGrapher.summoner"]}
+
+execute "as @e[tag=3dGrapher.summoner]" {
+	selfY = altitude;
+
+	for (double x = -2.5; x <= 3.5; x += .5) {
+		selfX = x;
+
+		for (double z = -2.5; z <= 3.5; z += .5) {
+			selfZ = z;
+			
+			// create armor stand at summoner's position
+			execute "at @s" {
+				/summon minecraft:armor_stand ~ ~ ~ {Invisible:1b,Marker:1b,NoGravity:1b,Small:1b,Tags:["3dGrapher.marker"]}
+			}
+		}	
+	}
+
+	
+	/function 3d-grapher:flicker-on;
+	
+	// destroy summoner
+	/kill @s
+}
+
+
+float panX = -.5;
+float panZ = -.5;
+float frame = 0;
+
+mcfunction "3d-grapher:reset-animation" {
+	panX = -.5;
+	panZ = -.5;
+	frame = 0;
+}
+
+mcfunction "3d-grapher:paraboloid" {
+	execute "as @e[tag=3dGrapher.marker]" {
+		float x = selfX + panX;
+		float z = selfZ + panZ;
+
+		selfY = (x * x + z * z) / 5 + altitude;
+	}
+}
+
+mcfunction "3d-grapher:saddle" {
+	execute "as @e[tag=3dGrapher.marker]" {
+		float x = selfX + panX;
+		float z = selfZ + panZ;
+
+		selfY = (x * x - z * z) / 5 + altitude;
+	}
+}
+
+double sineLike(double x) {
+	double modX = x % 1;
+	double result = (16 * modX * (1 - modX)) / (5 - modX * (1 - modX));
+	if (x % 2 > 1) result *= -1;
+	return result;
+}
+
+mcfunction "3d-grapher:sine" {
+	execute "as @e[tag=3dGrapher.marker]" {
+		float x = selfX;
+		float z = selfZ;
+
+		selfY = sineLike(x / 3 + frame) + sineLike(z / 3 + frame) + altitude;
+	}
+}
+
+mcfunction "3d-grapher:ripple" {
+	execute "as @e[tag=3dGrapher.marker]" {
+		float x = selfX - .5;
+		float z = selfZ - .5;
+
+		selfY = sineLike((x * x + z * z) / 8 + frame) + altitude;
+	}
+}
+
+const double X_SPEED = .04;
+const double Z_SPEED = .03;
+
+double XVelocity = X_SPEED;
+double ZVelocity = Z_SPEED;
+mcfunction "3d-grapher:animate" {
+	if (panX < -1) XVelocity = X_SPEED;
+	if (panZ < -1) ZVelocity = Z_SPEED;
+
+	if (panX > 1.5) XVelocity = -X_SPEED;
+	if (panZ > 1.5) ZVelocity = -Z_SPEED;
+
+	panX += XVelocity;
+	panZ += ZVelocity;
+	frame += .03;
+}
+
+
+mcfunction "3d-grapher:flicker-on" {
+	execute "as @e[tag=3dGrapher.marker]" {
+		/data modify entity @s ArmorItems set value [{},{},{},{id:"minecraft:cyan_concrete",Count:1b}]
+	}
+}
+
+mcfunction "3d-grapher:flicker-off" {
+	execute "as @e[tag=3dGrapher.marker]" {
+		/data modify entity @s ArmorItems set value [{},{},{},{id:"minecraft:cyan_stained_glass",Count:1b}]
+	}
+}
+
+mcfunction "3d-grapher:destroy" {
+	/kill @e[tag=3dGrapher.marker]
+}

@@ -1,56 +1,99 @@
-import { Context } from "../Compiler.js";
-import { ASTNode, Value } from "./astNode.js";
-import { NumberType } from "./dataTypes/number.js";
+import { Context } from "../compilation/Compiler.js";
+import { ASTNode, Type, Value } from "./astNode.js";
+import { NumberType, NumberValue } from "./typedValues/number.js";
+import { AnyValue } from "./untypedValues/AnyValue.js";
+import * as mil from "mil";
 
-export class BinaryOperation extends ASTNode {
+export class BinaryOp implements ASTNode  {
 	constructor(
 		public lhs: ASTNode,
 		public op: string,
 		public rhs: ASTNode,
-	) {super();}
+	) {}
 
-	async compile(ctx: Context): Promise<Value> {
+	async compile(ctx: Context) {
 		const lhs = await this.lhs.compile(ctx);
 		const rhs = await this.rhs.compile(ctx);
-		const result = lhs.type.binaryOp(ctx, lhs, this.op, rhs);
-		return result;
+		return lhs.binaryOp(ctx, this.op, rhs);
 	}
 
-	static negative(node: ASTNode): BinaryOperation {
-		return new BinaryOperation(NumberType.constant(0,1), "-", node);
+	static negative(value: ASTNode) {
+		return new BinaryOp(NumberValue.constant(mil.DataType.Int, 0), "-", value)
 	}
 
-	static not(node: ASTNode): BinaryOperation {
-		return new BinaryOperation(node, "!=", NumberType.constant(0,1));
+	static not(value: ASTNode) {
+		return new BinaryOp(value, "!=", NumberValue.constant(mil.DataType.Int, 0));
 	}
 }
 
-export type CompoundAssignmentOperator = "+="|"-="|"*="|"/="|"%=";
-
-export class Assignment extends ASTNode {
+export class Assignment implements ASTNode  {
 	constructor(
 		public lhs: ASTNode,
+		public op: string,
 		public rhs: ASTNode,
-	) {super();}
+	) {}
 
-	async compile(ctx: Context): Promise<Value> {
+	async compile(ctx: Context) {
+		if (this.op !== "=") {
+			// TODO: replace this with something better.
+			return new Assignment(this.lhs, "=", new BinaryOp(this.lhs, this.op[0]!, this.rhs)).compile(ctx);
+		}
+
 		const lhs = await this.lhs.compile(ctx);
 		const rhs = await this.rhs.compile(ctx);
-		const rhsCasted = rhs.cast(ctx, lhs.type);
-		lhs.type.copy(ctx, lhs.address, rhsCasted.address);
-		return rhs;
+		rhs.assignToVariable(ctx, lhs);
+		return lhs;
 	}
 
-	static compound(lhs: ASTNode, op: CompoundAssignmentOperator|"=", rhs: ASTNode) {
-		if (op === "=") return new Assignment(lhs, rhs);
-		return new Assignment(lhs, new BinaryOperation(lhs, op[0]!, rhs));
+	static inc(value: ASTNode) {
+		return new Assignment(value, "+=", NumberValue.constant(mil.DataType.Int, 1));
 	}
 
-	static inc(src: ASTNode) {
-		return this.compound(src, "+=", NumberType.constant(1,1));
+	static dec(value: ASTNode) {
+		return new Assignment(value, "-=", NumberValue.constant(mil.DataType.Int, 1));
 	}
+}
 
-	static dec(src: ASTNode) {
-		return this.compound(src, "+=", NumberType.constant(1,1));
+export class MemberAccess implements ASTNode  {
+	constructor(
+		public value: ASTNode,
+		public member: string,
+	) {}
+
+	async compile(ctx: Context) {
+		const value = await this.value.compile(ctx);
+		return value.member(ctx, this.member);
+	}
+}
+
+export class FunctionInvocation implements ASTNode  {
+	constructor(
+		public value: ASTNode,
+		public parameters: Map<string|number, ASTNode>,
+	) {}
+
+	async compile(ctx: Context) {
+		const value = await this.value.compile(ctx);
+		const parameters: Map<string|number, Value> = new Map;
+		for (const [position, node] of this.parameters) {
+			const value = await node.compile(ctx)
+			parameters.set(position, value);
+		}
+
+		return value.invokeFunction(ctx, parameters);
+	}
+}
+
+export class TypeCast implements ASTNode {
+	constructor(
+		public type: Type,
+		public value: ASTNode,
+	) {}
+	
+	async compile(ctx: Context) {
+		this.type.validateModifiers(ctx);
+
+		const oldValue = await this.value.compile(ctx);
+		return this.type.initialize(ctx, oldValue, { preferredName: "TypeCastResult" });
 	}
 }

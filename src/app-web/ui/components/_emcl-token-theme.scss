@@ -1,0 +1,62 @@
+code-viewer[data-lang=emcl] code-viewer-token {
+	&:hover {
+		background-color: var(--code-background-hover);
+	}
+
+	&[data-error] {
+		box-shadow: 0 0 .3em .1em red;
+	}
+
+	&[data-type=ILLEGAL] {
+		color: red;
+		text-decoration: underline;
+		font-weight: bold;
+	}
+
+	&[data-type=MCCOMMENT_LITERAL],
+	&[data-type=COMMENT] {
+		color: var(--green);
+	}
+
+	&[data-type=IMPORT],
+	&[data-type=AS],
+	&[data-type=MCFUNCTION],
+	&[data-type=FOR],
+	&[data-type=WHILE],
+	&[data-type=IF],
+	&[data-type=EXECUTE],
+	&[data-type=RETURN] {
+		color: var(--yellow);
+	}
+
+	&[data-type=CONST],
+	&[data-type=FINAL],
+	&[data-type=TYPE] {
+		color: var(--cerulean);
+	}
+
+	&[data-type=ALIAS],
+	&[data-type=SCORE],
+	&[data-type=NBT] {
+		color: var(--cerulean);
+	}
+
+
+	&[data-type=NAMESPACED_ID],
+	&[data-type=SCOREBOARD_OBJECTIVE],
+	&[data-type=IDENTIFIER] {
+		color: #c3ebee;
+	}
+
+
+	&[data-type=BOOLEAN_LITERAL],
+	&[data-type=STRING_LITERAL],
+	&[data-type=FLOAT_LITERAL],
+	&[data-type=INT_LITERAL] {
+		color: #d16856;
+	}
+
+	&[data-type=MCCOMMAND_LITERAL] {
+		color: var(--orange);
+	}
+}

@@ -10,25 +10,21 @@ export class Lexer {
 	}
 
 	reset() {
-		this.state = this.config.startState;
 		this.index = 0;
-		return this;
-	}
-
-	currentRules() {
-		return this.config.states.get(this.state)!;
 	}
 
 	step(string: string): Lexer.Token {
-		const rules = this.currentRules();
-		rules.regex.lastIndex = this.index;
+		this.config.regex.lastIndex = this.index;
 
-		const match = rules.regex.exec(string);
+		const match = this.config.regex.exec(string);
 		if (!match) return this.config.errorHandler.call(this, string);
 
 		for (let i = 1; i < match.length; i++) {
-			if (match[i] !== undefined) {
-				return this._transition(match[i]!, rules.transitions[i-1]!);
+			const value = match[i];
+			if (value !== undefined) {
+				this.index += value.length;
+				const type = this.config.types[i-1]!;
+				return { value, type };
 			}
 		}
 
@@ -71,12 +67,6 @@ export class Lexer {
 
 		return out;
 	}
-
-	private _transition(match: string, transition: Lexer.TransitionFunction): Lexer.Token {
-		const type = transition.call(this,match);
-		this.index += match.length;
-		return { value: match, type: type };
-	}
 }
 
 export namespace Lexer {
@@ -86,17 +76,10 @@ export namespace Lexer {
 		type: string;
 		value: string;
 	}
-	
-	export interface State {
-		regex: RegExp;
-		transitions: TransitionFunction[];
-	}
-
-	export type TransitionFunction = (this: Lexer, match: string)=>string;
 
 	export interface Config {
-		startState: any;
-		states: Map<any, State>;
+		regex: RegExp;
+		types: any[];
 		errorHandler: ErrorHandler;
 	}
 

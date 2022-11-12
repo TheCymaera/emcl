@@ -1,4 +1,0 @@
-// This is a comment. It is ignored by the compiler.
-// Comments are useful for adding notes to your code.
-
-import "./basic.emcl";

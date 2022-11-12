@@ -1,0 +1,7 @@
+int test(int parameter1, double parameter2, ) {
+	score "inFunc" "@p" = parameter1;
+	return 1;
+}
+
+score "outFunc" "@p" = test(3, 3,);
+score "outFunc" "@p" = test();

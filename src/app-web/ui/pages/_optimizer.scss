@@ -1,0 +1,33 @@
+app-optimizer {
+	display: grid;
+	grid-template-rows: 1fr min-content;
+
+	> :first-child {
+		overflow: auto;
+	}
+
+	> :last-child {
+		background: var(--background);
+		padding-top: .75em;
+
+		display: grid;
+		grid-template-columns: repeat(4, min-content) 1fr;
+	}
+}
+
+app-optimizer-button {
+	display: grid;
+	place-items: center;
+	width: 2.5em;
+	height: 2.5em;
+	cursor: pointer;
+
+	> * { font-size: 1.2em; }
+	&:hover { color: var(--foreground-2); }
+	&:active { color: var(--foreground-3); }
+
+	&[data-disabled] {
+		opacity: 0.2;
+		cursor: default;
+	}
+}

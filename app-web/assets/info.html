@@ -1,0 +1,430 @@
+<card- style="padding: .5em;">
+	<h3  style="margin: 0;">Experimental CLI available!</h3>
+	Check the news panel for more details.
+</card->
+<br/>
+
+<h1 style="margin-top: 0;">EMCL <small>Alpha 2.0.2</small></h1>
+
+<h2>Welcome!</h2>
+<p>
+	EMCL (Extended Minecraft Command Language) is a language designed
+	to compile to Minecraft function files. 
+	It implements data types, mathematical expressions, and high-level control flow like loops.
+</p>
+
+<br/>
+<p>
+	Report issues or suggest features through my social links:
+	<a href="https://github.com/TheCymaera/emcl" target="_blank">GitHub</a>,
+	<a href="https://www.reddit.com/user/Cymaera/" target="_blank">Reddit</a>,
+	<a href="https://www.youtube.com/channel/UCW9KvoeUz2CsBwIGh3ux1ew" target="_blank">YouTube</a>, or
+	<a href="https://www.patreon.com/cymaera">Patreon</a>.
+</p>
+<p>
+	As the language is in Alpha, there may be breaking changes.
+</p>
+<br />
+<h2>Examples:</h2>
+<div style="display: grid; grid-template-columns: 1fr 1fr; grid-gap: 1em;">
+	<div>
+		<h3>Animated 3D Grapher</h3>
+		<a href="https://www.youtube.com/watch?v=sY0uiRyFe6s" target="_blank" class="yt-thumbnail reset-font">
+			<img 
+				src="https://img.youtube.com/vi/sY0uiRyFe6s/maxresdefault.jpg" 
+				width="1280" height="720" 
+				loading="lazy"
+			/>
+			<div><i class="fab fa-youtube"></i></div>
+		</a>
+		<p>
+			<a href="#source-url=./sample-programs/3dGrapher/">Source Code</a>
+			<a target="_blank" href="https://www.planetminecraft.com/project/animated-3d-graphs/">Download</a>
+		</p>
+	</div>
+	<div>
+		<h3>Game of Life</h3>
+		<a href="https://www.youtube.com/watch?v=arYu6-V5m2I" target="_blank" class="yt-thumbnail reset-font">
+			<img 
+				src="https://img.youtube.com/vi/arYu6-V5m2I/maxresdefault.jpg" 
+				width="1280" height="720" 
+				loading="lazy"
+			/>
+			<div><i class="fab fa-youtube"></i></div>
+		</a>
+		<p>
+			<a href="#source-url=./sample-programs/gameOfLife/">Source Code</a>
+			<a target="_blank" href="https://www.planetminecraft.com/project/conway-s-game-of-life-5296964/">Download</a>
+		</p>
+	</div>
+	<div>
+		<h3>Fluid Physics</h4>
+		<a href="https://www.youtube.com/watch?v=CF7bSmH7HzI" target="_blank" class="yt-thumbnail reset-font">
+			<img 
+				src="https://img.youtube.com/vi/CF7bSmH7HzI/maxresdefault.jpg" 
+				width="1280" height="720"
+				loading="lazy"
+			/>
+			<div><i class="fab fa-youtube"></i></div>
+		</a>
+		<p>
+			<a href="#source-url=./sample-programs/sculkFluid/">Source Code</a>
+			<a target="_blank" href="https://www.planetminecraft.com/project/sculk-sludge/">Download</a>
+		</p>
+	</div>
+	<div>
+		<h3>Snake Game</h4>
+		<a href="https://www.youtube.com/watch?v=8styy_eTFzY" target="_blank" class="yt-thumbnail reset-font">
+			<img 
+				src="https://img.youtube.com/vi/8styy_eTFzY/maxresdefault.jpg" 
+				width="1280" height="720"
+				loading="lazy"
+			/>
+			<div><i class="fab fa-youtube"></i></div>
+		</a>
+		<p>
+			<a href="#source-url=./sample-programs/snakeGame/">Source Code</a>
+			<a target="_blank" href="https://www.planetminecraft.com/project/snake-game-5324973/">Download</a>
+		</p>
+	</div>
+</div>
+
+<h2>Getting Started</h2>
+
+
+<h3>IDE:</h3>
+VSCode Extension: <a href="https://marketplace.visualstudio.com/items?itemName=cymaera.emcl">EMCL</a> (Experimental)<br />
+<br />
+
+
+<h3>CLI:</h3>
+NPM: <a href="https://www.npmjs.com/package/emcl">EMCL</a> (Experimental)<br />
+<br />
+
+<h3>Creating or loading a project:</h3>
+<p>
+	Select a folder by clicking the folder icon on the bottom bar. 
+	The app will automatically generate a boilerplate project if one is not present.
+</p>
+<br/>
+<h3>Editing the datapacks folder:</h3>
+<p>
+	Most browser vendors prevent web-apps from editing system files, 
+	which includes the folders where datapacks are typically installed.
+	To work around this restriction, you can use symlinks. Simply create
+	the project on your desktop and link to it in the datapacks folder.
+</p>
+<h3>Creating a symlink on Windows:</h3>
+<code-block>
+	<span style="color: var(--yellow)" title="The command for creating file links">mklink</span>
+	<span title="Indicates that the file is a directory">/D</span> 
+	<span style="color: var(--orange)" title="Filepath (symlink)">link/in/world-save</span>
+	<span style="color: var(--orange)" title="Filepath (real file)">folder/on/desktop</span>
+</code-block>
+
+<h3>Creating a symlink on MacOS:</h3>
+<code-block>
+	<span style="color: var(--yellow)" title="The command for creating file links">ln</span> 
+	<span title="Symbolic link (as opposed to hard link)">-s</span> 
+	<span style="color: var(--orange)" title="Filepath (real file)">folder/on/desktop</span>
+	<span style="color: var(--orange)" title="Filepath (symlink)">link/in/world-save</span>
+</code-block>
+<br />
+
+
+
+
+<h2>Tutorial</h2>
+<h3>Config file</h3>
+<p>
+	Every EMCL project contains a JSON configuration file.
+	The compiler will generate one for you when you open a folder.
+	The file must be named <code>emcl.config.json</code> and be located in the project root.
+</p>
+<code-block class="emcl" style="white-space: pre;">{
+	// The program's entry file.
+	// Though not currently enforced, EMCL files should end in ".emcl".
+	"entry": "./main.emcl",
+
+	// Output folder (Datapack root)
+	"destination": "./dst/",
+
+	// The main mcfunction for the application.
+	// If declared, the initializer is prepended to the function.
+	"initializer": "pong:init",
+
+	// The mcfunction for destroying the application.
+	// If declared, the destructor is appended to the function.
+	"destructor": "pong:destroy",
+
+	// A prefix for internal scoreboards.
+	"scoreboardNamespace": "pong.i.",
+
+	// A prefix for internal NBT storage.
+	"nbtStorageNamespace": "pong:internal/",
+
+	// A prefix for internal mcfunctions.
+	"functionNamespace": "pong:internal/",
+
+	// (Optional)
+	// A list of functions to be
+	// invoked when the datapack is loaded.
+	"onLoad": [
+		"pong:init"
+	],
+
+	// (Optional)
+	// A list of functions to be
+	// invoked every game tick.
+	"onTick": [
+		"pong:move-paddles",
+		"pong:move-pucks"
+	],
+
+	// (Optional)
+	// "pack.mcmeta" file
+	"packMeta": {
+		"pack": {
+			"pack_format": 7,
+			"description": "Atari Pong for Minecraft"
+		}
+	}
+}</code-block>
+<br />
+<h3>Comments</h3>
+<p>Comments are ignored by the compiler. They are useful for adding notes to your code.</p>
+<code-block class="emcl" style="white-space: pre">// This is a single-line comment.
+
+/*
+	This is a multi-line comment.
+	It can span multiple lines.
+*/
+
+# This is a mcfunction-style comment. It is included in the output file.</code-block>
+<br />
+<h3>Commands</h3>
+<p>
+	Minecraft commands are written using this syntax:
+</p>
+<code-block class="emcl" style="white-space: pre">/tellraw @a "Hello World!"</code-block>
+<br />
+<h3>Variables</h3>
+<p>
+	Variables are used to store values. Each variable is declared with a data type.
+	The data types currently supported are:
+	<ul>
+		<li><code>byte</code></li>
+		<li><code>short</code></li>
+		<li><code>int</code></li>
+		<li><code>long</code></li>
+		<li><code>float</code></li>
+		<li><code>double</code></li>
+		<li><code>const string</code></li>
+	</ul>
+</p>
+<code-block class="emcl" style="white-space: pre">// Declare an integer variable
+int pointsScored = 0;
+
+// Assign a new value to variable.
+pointsScored = 1;</code-block>
+<br />
+<h3>Mathematical expressions</h3>
+<p>
+	EMCL uses mathematical operators common to most programming languages.
+</p>
+<code-block class="emcl" style="white-space: pre">result = (x + y) * 5 / 3;</code-block>
+
+<p>
+	Expression operators:
+</p>
+<ul>
+	<li><code>a + b</code> Addition</li>
+	<li><code>a - b</code> Subtraction</li>
+	<li><code>a * b</code> Multiplication</li>
+	<li><code>a / b</code> Division</li>
+	<li><code>a % b</code> Modulus</li>
+	<li><code>a &lt; b</code> Smaller than</li>
+	<li><code>a &lt;= b</code> Smaller than or equal to</li>
+	<li><code>a == b</code> Equal to</li>
+	<li><code>a &gt;= b</code> Greater than or equal to</li>
+	<li><code>a &gt; b</code> Greater than</li>
+	<li><code>a != b</code> Not equal to</li>
+	<li><code>!a</code> Not (not zero)</li>
+</ul>
+
+<p>
+	Assignment operators:
+</p>
+<ul>
+	<li><code>a = b</code> Assignment</li>
+	<li><code>a += b</code> Same as: <code>a = a + b</code></li>
+	<li><code>a -= b</code> Same as: <code>a = a - b</code></li>
+	<li><code>a *= b</code> Same as: <code>a = a * b</code></li>
+	<li><code>a /= b</code> Same as: <code>a = a / b</code></li>
+	<li><code>a %= b</code> Same as: <code>a = a % b</code></li>
+	<li><code>++a</code> Same as: <code>a = a + 1</code></li>
+	<li><code>--a</code> Same as: <code>a = a - 1</code></li>
+</ul>
+<br/>
+
+<h3>Scores and NBT</h3>
+<p>
+	You can read and write from scoreboards and NBTs using the following syntax.
+</p>
+<code-block class="emcl" style="white-space: pre">int x = 0;
+score "objective" "player" = x;
+double nbt "entity" "@s" "Pos[0]" = x;</code-block>
+<br/>
+<p>
+	For common targets, you may define an alias.
+</p>
+<code-block class="emcl" style="white-space: pre">alias nearestPlayerScore (score "pointsScored" "@p");
+nearestPlayerScore += 1;</code-block>
+<br />
+
+<h3>If-Statement</h3>
+<p>
+	An if-statement runs a block of code if a condition is satisfied (does not return 0).
+</p>
+<code-block class="emcl" style="white-space: pre">if (pointsScored == 10) {
+	/tellraw @a "You scored 10 points! You Win!";
+}</code-block>
+<br/>
+
+<h3>While-Loop</h3>
+<p>
+	A while-loop will run a block of code repeatedly as long as a condition is satisfied.
+</p>
+<code-block class="emcl" style="white-space: pre">// Say "Hello World" 10 times
+int i = 0;
+while (i &lt; 10) {
+	/tellraw @a "Hello World!"
+	i += 1;
+}
+
+// Every time the block runs, 'i' increases by 1.
+// This will happen until 'i' reaches 10
+// and the condition is no longer satisfied.</code-block>
+<br/>
+
+<h3>For-Loop</h3>
+<p>
+	A for-loop is shorthand for a while-loop.
+	It contains an <i>initializer</i>, a <i>condition</i>, and an <i>afterthought</i>.
+</p>
+<code-block class="emcl" style="white-space: pre">for (int i = 0; i &lt; 10; i += 1) {
+	/tellraw @a "Hello World!"
+}
+// This is just like the previous example, except all 
+// the loop-logic is written on a single line.</code-block>
+<br/>
+
+
+<h3>Execute-Statement</h3>
+<p>
+	An execute-statement runs a block of code using an execute command.
+</p>
+<code-block class="emcl" style="white-space: pre">execute "as @a at @s" {
+	/tellraw @s "Hello World!"
+}
+
+// Parentheses are optional.
+execute ("as @a at @s") {
+	/tellraw @s "Hello World!"
+}
+
+// execute-blocks with only 1 command are automatically inlined,
+// so you need not use them sparingly.</code-block>
+<br/>
+
+
+<h3>Functions (Experimental)</h3>
+<p>
+	Functions allow you to reuse code in different parts of your program.
+</p>
+<code-block class="emcl" style="white-space: pre">double squareNumber(double value) {
+	return value * value;
+}
+
+int x = squareNumber(2); // x = 4
+int y = squareNumber(3); // y = 9
+
+// WARNING: 
+// As of writing, recursion is not supported, and return statements 
+// must be placed at the end of the function.
+// The compiler will not warn you if you ignore these limitations.</code-block>
+<br/>
+
+<h3>MCFunction Declaration</h3>
+<p>
+	You may declare a block of code as an mcfunction using the following syntax.<br />
+	Note: Recursion is not supported.
+</p>
+<code-block class="emcl" style="white-space: pre">mcfunction "namespace:id" {
+	/tellraw @a "Hello World!";
+}</code-block>
+<br/>
+
+<h3>Import-Statements</h3>
+<p>
+	Import-statements are used to import other files.
+	Variables are scoped to each module, but there will be ways
+	to share variables in the future.
+</p>
+<code-block class="emcl" style="white-space: pre">// Paths are relative to the current module.
+import "./module.emcl"
+
+// You can also use URLs
+import "https://www.example.com/module.emcl";</code-block>
+<br/>
+
+
+<h3>Variable scopes</h3>
+<p>
+	Variables may share the same name as long as they are declared in different scopes.
+</p>
+<code-block class="emcl" style="white-space: pre">const string player = "Tom";
+player; // refers to Tom
+{
+	const string player = "Sam";
+	player; // refers to Sam
+}</code-block>
+<br/>
+
+<br/><br/><br/><br/><br/><br/>
+<br/><br/><br/><br/><br/><br/>
+
+
+
+<style>
+	.yt-thumbnail {
+		position: relative;
+		display: block;
+	}
+	.yt-thumbnail img {
+		display: block;
+		width: 100%;
+		height: auto;
+	}
+	.yt-thumbnail > div {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 200%;
+
+
+		position: absolute;
+		left: 0;
+		top: 0;
+		height: 100%;
+		width: 100%;
+		background-color: #0003;
+		pointer-events: none;
+		transition: opacity .1s ease;
+		
+		opacity: 0;
+	}
+	.yt-thumbnail:hover > div {
+		opacity: 1;
+	}
+</style>

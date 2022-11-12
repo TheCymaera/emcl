@@ -1,5 +1,5 @@
-import { FileSystem } from "./FileSystem";
-import { ReadonlyURI } from "./URI";
+import { FileSystem } from "./FileSystem.js";
+import { ReadonlyURI } from "./URI.js";
 
 export class AggregateFileSystem implements FileSystem {
 	readonly schemes: Map<string, FileSystem> = new Map;

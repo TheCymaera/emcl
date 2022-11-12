@@ -1,0 +1,105 @@
+const int X_MIN = 0;
+const int Z_MIN = 0;
+const int X_MAX = 20;
+const int Z_MAX = 20;
+const int VISCOSITY = 1;
+
+mcfunction "sculk-fluid:update-grid" {
+	/summon minecraft:marker ~ ~ ~ {Tags:["sculkFluid.marker"]}
+	for (int x = X_MIN; x < X_MAX; x += 1) {
+		for (int z = Z_MIN; z < Z_MAX; z += 1) {
+			double nbt "entity" "@e[tag=sculkFluid.marker, limit=1]" "Pos[0]" = x;
+			double nbt "entity" "@e[tag=sculkFluid.marker, limit=1]" "Pos[2]" = z;
+
+			execute "at @e[tag=sculkFluid.marker]" /function sculk-fluid:update-cell;
+			
+		}
+	}
+	/kill @e[tag=sculkFluid.marker];
+}
+
+const int DIRECTION_NULL = 0;
+const int DIRECTION_X = 1;
+const int DIRECTION_NX = 2;
+const int DIRECTION_Z = 3;
+const int DIRECTION_NZ = 4;
+
+mcfunction "sculk-fluid:update-cell" {
+	execute "if block ~ ~-1 ~ minecraft:iron_trapdoor" {
+		/setblock ~ ~ ~ minecraft:air;
+	}
+
+	execute "if block ~ ~ ~ minecraft:snow" {
+		// count layers
+		int layers = 1;
+		execute "if block ~ ~ ~ minecraft:snow[layers=2]" layers = 2;
+		execute "if block ~ ~ ~ minecraft:snow[layers=3]" layers = 3;
+		execute "if block ~ ~ ~ minecraft:snow[layers=4]" layers = 4;
+		execute "if block ~ ~ ~ minecraft:snow[layers=5]" layers = 5;
+		execute "if block ~ ~ ~ minecraft:snow[layers=6]" layers = 6;
+		execute "if block ~ ~ ~ minecraft:snow[layers=7]" layers = 7;
+		execute "if block ~ ~ ~ minecraft:snow[layers=8]" layers = 8;
+
+		if (layers > 1) {
+			// find neighbour with the least layers
+			int minLayers = layers - VISCOSITY;
+			int scanDirection = DIRECTION_NULL;
+			int transferDirection = DIRECTION_NULL;
+			mcfunction "sculk-fluid:count-neighbour" {
+				int layers = 8;
+				execute "if block ~ ~ ~ minecraft:air" layers = 0;
+				execute "if block ~ ~ ~ minecraft:snow[layers=1]" layers = 1;
+				execute "if block ~ ~ ~ minecraft:snow[layers=2]" layers = 2;
+				execute "if block ~ ~ ~ minecraft:snow[layers=3]" layers = 3;
+				execute "if block ~ ~ ~ minecraft:snow[layers=4]" layers = 4;
+				execute "if block ~ ~ ~ minecraft:snow[layers=5]" layers = 5;
+				execute "if block ~ ~ ~ minecraft:snow[layers=6]" layers = 6;
+				execute "if block ~ ~ ~ minecraft:snow[layers=7]" layers = 7;
+
+				if (layers < minLayers) {
+					minLayers = layers;
+					transferDirection = scanDirection;
+				}
+			}
+			
+			// scan all four sides
+			scanDirection = DIRECTION_NX;
+			execute "positioned ~-1 ~ ~" /function sculk-fluid:count-neighbour;
+			scanDirection = DIRECTION_NZ;
+			execute "positioned ~ ~ ~-1" /function sculk-fluid:count-neighbour;
+			scanDirection = DIRECTION_X;
+			execute "positioned ~1 ~ ~" /function sculk-fluid:count-neighbour;
+			scanDirection = DIRECTION_Z;
+			execute "positioned ~ ~ ~1" /function sculk-fluid:count-neighbour;
+
+			mcfunction "sculk-fluid:transfer-fluid" {
+				minLayers += 1;
+				layers -= 1;
+				if (minLayers == 1) /setblock ~ ~ ~ minecraft:snow[layers=1];
+				if (minLayers == 2) /setblock ~ ~ ~ minecraft:snow[layers=2];
+				if (minLayers == 3) /setblock ~ ~ ~ minecraft:snow[layers=3];
+				if (minLayers == 4) /setblock ~ ~ ~ minecraft:snow[layers=4];
+				if (minLayers == 5) /setblock ~ ~ ~ minecraft:snow[layers=5];
+				if (minLayers == 6) /setblock ~ ~ ~ minecraft:snow[layers=6];
+				if (minLayers == 7) /setblock ~ ~ ~ minecraft:snow[layers=7];
+				if (minLayers == 8) /setblock ~ ~ ~ minecraft:snow[layers=8];
+			}
+
+			// transfer and update layer
+			if (transferDirection == DIRECTION_NX) execute "positioned ~-1 ~ ~" /function sculk-fluid:transfer-fluid;
+			if (transferDirection == DIRECTION_NZ) execute "positioned ~ ~ ~-1" /function sculk-fluid:transfer-fluid;
+			if (transferDirection == DIRECTION_X) execute "positioned ~1 ~ ~" /function sculk-fluid:transfer-fluid;
+			if (transferDirection == DIRECTION_Z) execute "positioned ~ ~ ~1" /function sculk-fluid:transfer-fluid;
+
+			// update cell
+			if (layers == 1) /setblock ~ ~ ~ minecraft:snow[layers=1];
+			if (layers == 2) /setblock ~ ~ ~ minecraft:snow[layers=2];
+			if (layers == 3) /setblock ~ ~ ~ minecraft:snow[layers=3];
+			if (layers == 4) /setblock ~ ~ ~ minecraft:snow[layers=4];
+			if (layers == 5) /setblock ~ ~ ~ minecraft:snow[layers=5];
+			if (layers == 6) /setblock ~ ~ ~ minecraft:snow[layers=6];
+			if (layers == 7) /setblock ~ ~ ~ minecraft:snow[layers=7];
+			if (layers == 8) /setblock ~ ~ ~ minecraft:snow[layers=8];
+		}
+	}
+}

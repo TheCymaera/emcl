@@ -3,16 +3,17 @@ import sourcemaps from "rollup-plugin-sourcemaps";
 import { terser } from 'rollup-plugin-terser';
 import typescript from '@rollup/plugin-typescript';
 import node from "@rollup/plugin-node-resolve";
+import shebang from 'rollup-plugin-add-shebang';
 
 const useTerser = true;//!process.env.ROLLUP_WATCH;
 
 export default rollup.defineConfig([
 	{
-		input: 'src/app/main.ts',
+		input: 'src/app-web/main.ts',
 		output: {
 			sourcemap: true,
 			format: 'iife',
-			file: 'public/dst/main.js'
+			file: 'app-web/dst/main.js'
 		},
 		plugins: [
 			typescript(),
@@ -21,18 +22,24 @@ export default rollup.defineConfig([
 			useTerser ? terser() : undefined,
 		]
 	},
+
+
 	{
-		input: 'src/app/service-worker.ww.ts',
+		input: 'src/app-cli/main.ts',
 		output: {
 			sourcemap: true,
 			format: 'iife',
-			file: 'public/service-worker.ww.js'
+			file: 'app-cli/dst/main.js'
 		},
 		plugins: [
 			typescript(),
 			node(),
 			sourcemaps(),
+			shebang({
+				include: 'app-cli/dst/main.js',
+				shebang: '#!/usr/bin/env node',
+			}),
 			useTerser ? terser() : undefined,
 		]
-	}
+	},
 ]);
