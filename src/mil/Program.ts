@@ -207,6 +207,7 @@ export class GenerationContext {
 	}
 
 	internalScore(name: string) {
+		this.generation.usesInternalScoreboard = true;
 		const player = "variables." + name;
 		const objective = this.generation.program.config.mainScoreboard;
 		return  `${player} ${objective}`;

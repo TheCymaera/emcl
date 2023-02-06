@@ -18,7 +18,7 @@ $page_og_type 			= "website";
 <html class="full-window-document" data-theme="dark">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />-->
+	<!--<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />-->
 
 	<!-- pwa -->
 	<link rel="manifest" href="./manifest.json">
@@ -29,19 +29,19 @@ $page_og_type 			= "website";
 
 	<!-- title & favicon -->
 	<title><?php echo $page_title;?></title>
-    <link rel="icon" href="./assets/images/icon-512.png" type="image/png"/>
+	<link rel="icon" href="./assets/images/icon-512.png" type="image/png"/>
 	
 	<!-- info -->
-    <meta name="author" content="<?php echo $page_author;?>"/>
-    <meta name="description" content="<?php echo $page_description;?>"/>
-    <meta name="keywords" content="<?php echo $page_keywords;?>"/>
+	<meta name="author" content="<?php echo $page_author;?>"/>
+	<meta name="description" content="<?php echo $page_description;?>"/>
+	<meta name="keywords" content="<?php echo $page_keywords;?>"/>
 	
 	<!-- sharing -->
-    <meta property="og:title" content="<?php echo $page_og_title;?>"/>
-    <meta property="og:description" content="<?php echo $page_og_description;?>"/>
-    <meta property="og:url"   content="<?php echo $page_og_url;?>"/>
-    <meta property="og:image" content="<?php echo $page_og_image;?>"/>
-    <meta property="og:type"  content="<?php echo $page_og_type;?>"/>
+	<meta property="og:title" content="<?php echo $page_og_title;?>"/>
+	<meta property="og:description" content="<?php echo $page_og_description;?>"/>
+	<meta property="og:url"   content="<?php echo $page_og_url;?>"/>
+	<meta property="og:image" content="<?php echo $page_og_image;?>"/>
+	<meta property="og:type"  content="<?php echo $page_og_type;?>"/>
 
 	<!-- styles -->
 	<link rel="stylesheet" type="text/css" href="/shared/fontawesome-free-5.13.1-web/css/all.min.css"/>
