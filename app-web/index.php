@@ -44,8 +44,8 @@ $page_og_type 			= "website";
 	<meta property="og:type"  content="<?php echo $page_og_type;?>"/>
 
 	<!-- styles & scripts -->
-	<link rel="stylesheet" type="text/css" href="./dst/main.css?v=2"/>
-	<script type="module" src="./dst/main.js?v=2"></script>
+	<link rel="stylesheet" type="text/css" href="./dst/main.css?v=3"/>
+	<script type="module" src="./dst/main.js?v=3"></script>
 </head>
 <body>
 </body>
