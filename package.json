@@ -1,6 +1,6 @@
 {
 	"name": "emcl",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "A language designed to compile to mcfunction files.",
 	"type": "module",
 	"bin": {
