@@ -1,4 +1,4 @@
-import * as codeGeneration from "./codeGeneration";
+import * as codeGeneration from "./codeGeneration/index.js";
 import { NumberConstant } from "./Constant.js";
 import { DataType } from "./DataType.js";
 import { NBT } from "./NBT.js";

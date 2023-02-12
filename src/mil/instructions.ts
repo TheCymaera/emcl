@@ -2,7 +2,7 @@ import { Constant, NumberConstant } from "./Constant.js";
 import { NBT } from "./NBT.js";
 import { GenerationContext } from "./Program.js";
 import { Score } from "./Score.js";
-import * as codeGeneration from "./codeGeneration/";
+import * as codeGeneration from "./codeGeneration/index.js";
 import { Arithmetic } from "./Arithmetic.js";
 import { Compare } from "./Compare.js";
 

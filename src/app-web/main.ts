@@ -1,4 +1,4 @@
-import * as app from "./app";
+import * as app from "./app.js";
 window["app"] = app;
 console.log(`For debugging, see "window.app" and "window.compilation"`);
 
@@ -17,8 +17,8 @@ app.onLoadProject.add((uri)=>{
 	});
 });
 
-import "./ui/tabs";
-import "./ui/bottomBar";
+import "./ui/ui.js";
+
 import { URI } from "../file-system/URI.js";
 
 function onHashChange() {

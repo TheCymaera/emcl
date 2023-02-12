@@ -2,7 +2,7 @@ import { Context } from "../compilation/Compiler.js";
 import { ASTNode, Type, Value } from "./astNode.js";
 import { NamespaceValue } from "./untypedValues/NamespaceValue.js";
 import { VoidValue } from "./typedValues/void.js";
-import * as linter from "../linter";
+import * as linter from "../linter/index.js";
 import { FunctionValue } from "./untypedValues/FunctionValue.js";
 
 export class Scope implements ASTNode {

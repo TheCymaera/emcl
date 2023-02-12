@@ -1,9 +1,10 @@
-import * as app from "../../app";
+import * as app from "../../app.js";
 import { lexer } from "emcl";
 import { CodeViewer } from "../components/CodeViewer.js";
 import * as collapsiblePanel from "../components/collapsiblePanel.js";
 import * as mil from "mil";
 import * as milOptimizer from "mil-optimizer";
+import { fa5_solid_stepBackward, fa5_solid_fastBackward, fa5_solid_stepForward, fa5_solid_fastForward } from "fontawesome-svgs";
 
 // wow this sucks
 export const element = document.createElement("app-optimizer");
@@ -19,13 +20,13 @@ const message = document.createElement("code-block");
 message.style.whiteSpace = "pre";
 footer.append(fastBackwardButton, backwardButton, forwardButton, fastForwardButton, message);
 
-backwardButton.innerHTML = `<i class="fa fa-step-backward"></i>`;
+backwardButton.innerHTML = fa5_solid_stepBackward;
 backwardButton.onclick = ()=>setPage(currentPage - 1);
-forwardButton.innerHTML = `<i class="fa fa-step-forward"></i>`;
+forwardButton.innerHTML = fa5_solid_stepForward;
 forwardButton.onclick = ()=>setPage(currentPage + 1);
-fastBackwardButton.innerHTML = `<i class="fa fa-fast-backward"></i>`;
+fastBackwardButton.innerHTML = fa5_solid_fastBackward;
 fastBackwardButton.onclick = ()=>setPage(0);
-fastForwardButton.innerHTML = `<i class="fa fa-fast-forward"></i>`;
+fastForwardButton.innerHTML = fa5_solid_fastForward;
 fastForwardButton.onclick = ()=>setPage(Infinity);
 
 element.append(main, footer);

@@ -1,4 +1,4 @@
-import { GrammarBuilder } from "../../compiler-builder/GrammarBuilder";
+import { GrammarBuilder } from "../../compiler-builder/GrammarBuilder.js";
 import { Block, Execute, If, Loop, MCCommandLiteral } from "../ast/controlFlow.js";
 import { DefineMCFunction, Scope, Identifier, DeclareAlias, ExportValue, ImportModule, DeclareVariable, DeclareFunction, ReturnValue, FunctionParameter } from "../ast/definitions.js";
 import { Assignment, BinaryOp, FunctionInvocation, MemberAccess, TypeCast } from "../ast/operators.js";

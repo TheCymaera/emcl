@@ -5,7 +5,7 @@ import { NBT } from "../NBT.js";
 import { GenerationContext } from "../Program.js";
 import { Score } from "../Score.js";
 import { executeStore, ExecuteStoreTarget, ExecuteStoreValue } from "./common.js";
-import * as genNBT from "./nbt";
+import * as genNBT from "./nbt.js";
 import * as genArithmetic from "./arithmetic.js";
 import * as genCompare from "./compare.js";
 

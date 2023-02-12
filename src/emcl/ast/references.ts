@@ -2,7 +2,7 @@ import { ASTNode, Type, Value } from "./astNode.js";
 import { Context } from "../compilation/Compiler.js";
 import { NumberType, NumberValue } from "./typedValues/number.js";
 import * as mil from "mil";
-import * as linter from "../linter";
+import * as linter from "../linter/index.js";
 
 export class ScoreReference implements ASTNode {
 	constructor(

@@ -2,7 +2,7 @@ import { Compare } from "./Compare.js";
 import { NBT } from "./NBT.js";
 import { GenerationContext } from "./Program.js";
 import { Score } from "./Score.js";
-import * as codeGeneration from "./codeGeneration";
+import * as codeGeneration from "./codeGeneration/index.js";
 import { NumberConstant } from "./Constant.js";
 
 export class Goto {

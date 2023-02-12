@@ -43,43 +43,10 @@ $page_og_type 			= "website";
 	<meta property="og:image" content="<?php echo $page_og_image;?>"/>
 	<meta property="og:type"  content="<?php echo $page_og_type;?>"/>
 
-	<!-- styles -->
-	<link rel="stylesheet" type="text/css" href="/shared/fontawesome-free-5.13.1-web/css/all.min.css"/>
-	<link rel="stylesheet" type="text/css" href="/shared/fontawesome-free-5.13.1-web/css/brands.min.css"/>
-	<!--<link rel="stylesheet" type="text/css" href="/shared/helion/v1/index.css"/>-->
-	<link rel="stylesheet" type="text/css" href="./dst/main.css"/>
-
-	<!-- scripts -->
-	<script type="module" src="./dst/main.js"></script>
+	<!-- styles & scripts -->
+	<link rel="stylesheet" type="text/css" href="./dst/main.css?v=2"/>
+	<script type="module" src="./dst/main.js?v=2"></script>
 </head>
 <body>
-	<tabs->
-		<div class="center-content square"><i class="fa fa-info"></i></div>
-		<div class="center-content square"><i class="fa fa-newspaper"></i></div>
-		<div class="center-content"><b>Console</b></div>
-		<div class="center-content"><b>Sources</b></div>
-		<div class="center-content"><b>Optimizer</b></div>
-		<div class="center-content"><b>Output</b></div>
-	</tabs->
-	<backdrop- id="panelContainer" class="expand-children"></backdrop->
-	<bottom-navigation-bar>
-		<div 
-			id="install" 
-			class="center-content square" 
-			title="Install" 
-			style="display: none"
-		><i class="fa fa-download"></i></div>
-		<bottom-navigation-bar-buffer></bottom-navigation-bar-buffer>
-		<div 
-			id="loadProject" 
-			class="center-content square" 
-			title="Load Project"
-		><i class="fa fa-folder"></i></div>
-		<div 
-			id="compile" 
-			class="center-content square"  
-			title="Compile"
-		><i class="fa fa-play"></i></div>
-	</bottom-navigation-bar>
 </body>
 </html>

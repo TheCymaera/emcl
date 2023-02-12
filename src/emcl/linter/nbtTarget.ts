@@ -1,4 +1,4 @@
-import * as namespacedId from "./namespacedId";
+import * as namespacedId from "./namespacedId.js";
 
 export function lint(kind: string, target: string) {
 	if (kind === "storage") return namespacedId.lint(target);

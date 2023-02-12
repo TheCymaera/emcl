@@ -1,5 +1,7 @@
 import { CodeViewer } from "../components/CodeViewer.js";
 import { lexer } from "emcl";
+// @ts-expect-error
+import html from "./news.html";
 
 export const element = document.createElement("div");
 element.style.padding = "1em";
@@ -10,10 +12,7 @@ container.style.margin = "auto";
 container.style.maxWidth = "800px";
 element.append(container);
 
-(async ()=>{
-	const response = await fetch("./assets/news.html");
-	container.innerHTML = await response.text();
-	for (const element of container.querySelectorAll("code-block.emcl")) {
-		element.replaceWith(new CodeViewer("emcl", lexer).setText(element.textContent ?? "").root);
-	}
-})();
+container.innerHTML = html;
+for (const element of container.querySelectorAll("code-block.emcl")) {
+	element.replaceWith(new CodeViewer("emcl", lexer).setText(element.textContent ?? "").root);
+}

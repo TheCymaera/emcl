@@ -1,3 +1,3 @@
-export * as namespacedId from "./namespacedId";
-export * as nbtTarget from "./nbtTarget";
-export * as scoreboard from "./scoreboard";
+export * as namespacedId from "./namespacedId.js";
+export * as nbtTarget from "./nbtTarget.js";
+export * as scoreboard from "./scoreboard.js";

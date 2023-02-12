@@ -1,4 +1,4 @@
-import * as linter from "../linter";
+import * as linter from "../linter/index.js";
 import { ReadonlyURI, URI } from "file-system";
 import { Console } from "./Compiler.js";
 

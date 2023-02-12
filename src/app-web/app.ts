@@ -1,5 +1,5 @@
 import { Compiler } from "emcl";
-import { AggregateFileSystem, FetchFileSystem, FSAFileSystem, NodeFileSystem } from "file-system";
+import { AggregateFileSystem, FetchFileSystem, FSAFileSystem } from "file-system";
 import { ProjectGenerator } from "src/emcl/utilities/ProjectGenerator.js";
 import { ReadonlyURI } from "../file-system/URI.js";
 import { Console } from "./ui/components/Console.js";
