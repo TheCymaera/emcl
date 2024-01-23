@@ -50,8 +50,6 @@ export class FSAFileSystem extends FileSystem {
 
 	async writeFile(uri: ReadonlyURI, content: ArrayBuffer) {
 		const handle = await this._getFile(uri, true);
-		// TODO: Remove when TS updates definitions.
-		// @ts-expect-error
 		const writable = await handle.createWritable();
 		await writable.write(content);
 		await writable.close();

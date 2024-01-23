@@ -16,7 +16,6 @@ export abstract class Score {
 }
 
 export class ScorePointer extends Score {
-	readonly dataType: DataType.Int;
 	constructor(public objective: string, public target: string) { super();  }
 
 	scorePointer(): string {
@@ -46,7 +45,6 @@ export class ScorePointer extends Score {
 }
 
 export class ScoreVariable extends Score {
-	readonly dataType: DataType.Int;
 	constructor(public name: string) { super(); }
 
 	scorePointer(ctx: GenerationContext): string {

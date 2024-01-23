@@ -1,5 +1,5 @@
 import rollup from 'rollup';
-import { terser } from 'rollup-plugin-terser';
+import terser from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
 import node from "@rollup/plugin-node-resolve";
 import shebang from 'rollup-plugin-add-shebang';
