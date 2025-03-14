@@ -1,4 +1,4 @@
-import { ASTNode, Value } from "../ast/astNode.js";
+import { Value } from "../ast/astNode.js";
 import { SymbolTable } from "../../compiler-builder/SymbolTable.js";
 import * as parserPipeline from "./parserPipeline.js";
 import { Config } from "./Config.js";
@@ -7,12 +7,13 @@ import * as milOptimizer from "mil-optimizer";
 import { VoidValue } from "../ast/typedValues/void.js";
 import { minecraftModule } from "../native-modules/minecraft.js";
 import { Module } from "./Module.js";
-import { FileSystem, ReadonlyURI } from "file-system";
+import { FileSystem, type ReadonlyURI } from "file-system";
 
 export class Compiler {
-	fileSystem: FileSystem;
-	console: Console;
-	uri: ReadonlyURI;
+	// TODO: Replace this
+	fileSystem!: FileSystem;
+	console!: Console;
+	uri!: ReadonlyURI;
 	noOut = false;
 
 	readonly beforeCompile: Set<(this: this)=>any> = new Set;
@@ -35,7 +36,7 @@ export class Compiler {
 			const expected = (e instanceof IOError) || (e instanceof SemanticError);
 			if (!expected) {
 				this.console.error("Encountered unexpected error.");
-				this.console.error(e.message);
+				this.console.error(e instanceof Error ? e.message : `${e}`);
 			}
 			for (const callback of this.onComplete) callback.call(this);
 			throw e;

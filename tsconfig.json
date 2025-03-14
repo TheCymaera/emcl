@@ -1,29 +1,50 @@
 {
-	"include": ["src"],
+	"exclude": [
+		"node_modules",
+		"dist",
+	],
 	"compilerOptions": {
-		"module": "NodeNext",
+		"module": "ESNext",
 		"target": "ESNext",
-		"moduleResolution": "nodenext",
+
+		"moduleResolution": "bundler",
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
 		
+		"strict": true,
+		"strictBindCallApply": true,
+		"strictFunctionTypes": true,
+		"strictPropertyInitialization": true,
 		"strictNullChecks": true,
 		"noImplicitThis": true,
 		"noImplicitReturns": true,
-		"alwaysStrict": true,
 		"noUncheckedIndexedAccess": true,
+		"alwaysStrict": true,
+		"forceConsistentCasingInFileNames": true,
+
+		"verbatimModuleSyntax": true,
 
 		"preserveConstEnums": true,
-		"sourceMap": true,
 		"removeComments": true,
+		"sourceMap": true,
+		"inlineSources": false,
 
-		"skipDefaultLibCheck": true,
+		"noEmit": true,
+		//"skipDefaultLibCheck": true,
+		//"skipLibCheck": true,
 
-		"baseUrl": ".",
+		"lib": ["ES2023", "DOM", "DOM.Iterable"],
+		
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+
+		"baseUrl": "./src",
 		"paths": {
-			"file-system": ["./src/file-system/index.ts"],
-			"mil": ["./src/mil/index.ts"],
-			"mil-optimizer": ["./src/mil-optimizer/index.ts"],
-			"emcl-linter": ["./src/emcl-linter/index.ts"],
-			"emcl": ["./src/emcl/index.ts"],
+			"file-system": ["./file-system/index.ts"],
+			"mil": ["./mil/index.ts"],
+			"mil-optimizer": ["./mil-optimizer/index.ts"],
+			"emcl-linter": ["./emcl-linter/index.ts"],
+			"emcl": ["./emcl/index.ts"],
 		}
 	}
 }

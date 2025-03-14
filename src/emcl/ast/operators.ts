@@ -1,5 +1,5 @@
 import { Context } from "../compilation/Compiler.js";
-import { ASTNode, Type, Value } from "./astNode.js";
+import { type ASTNode, Type, Value } from "./astNode.js";
 import { NumberType, NumberValue } from "./typedValues/number.js";
 import { AnyValue } from "./untypedValues/AnyValue.js";
 import * as mil from "mil";
@@ -33,7 +33,7 @@ export class Assignment implements ASTNode  {
 		public rhs: ASTNode,
 	) {}
 
-	async compile(ctx: Context) {
+	async compile(ctx: Context): Promise<Value> {
 		if (this.op !== "=") {
 			// TODO: replace this with something better.
 			return new Assignment(this.lhs, "=", new BinaryOp(this.lhs, this.op[0]!, this.rhs)).compile(ctx);

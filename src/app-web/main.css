@@ -1,0 +1,312 @@
+@import 'tailwindcss';
+
+@config '../../tailwind.config.js';
+
+@theme {
+	--fontFamily:  Arial, sans-serif; /* 'Noto Sans TC' */
+	--monospaceFontFamily:  'Courier New', Courier, monospace;
+
+	--color-surface: #333333;
+	--color-onSurface: #eeeeee;
+	--color-inkWell: var(--color-onSurface);
+
+	--color-surfaceContainer: #444444;
+	--color-onSurfaceContainer: var(--color-onSurface);
+
+	--color-surfaceContainer2: #222222;
+	--color-onSurfaceContainer2: var(--color-onSurface);
+
+	--color-primary-50: var(--color-teal-50);
+	--color-primary-100: var(--color-teal-100);
+	--color-primary-200: var(--color-teal-200);
+	--color-primary-300: var(--color-teal-300);
+	--color-primary-400: var(--color-teal-400);
+	--color-primary-500: var(--color-teal-500);
+	--color-primary-600: var(--color-teal-600);
+	--color-primary-700: var(--color-teal-700);
+	--color-primary-800: var(--color-teal-800);
+	--color-primary-900: var(--color-teal-900);
+	--color-primary-950: var(--color-teal-950);
+	
+	--color-onPrimary: #ffffff;
+}
+
+@layer base {
+	:root {
+		font-family: var(--fontFamily);
+		font-size: 16px;
+		tab-size: 4;
+		line-height: 1.5;
+		accent-color: var(--color-primary-500);
+
+		background: var(--color-surface);
+		color: var(--color-onSurface);
+
+		--color-divider: color-mix(in srgb, transparent, var(--color-onSurface) 20%);
+		--color-containerBorder: color-mix(in srgb, transparent, var(--color-onSurface) 20%);
+		--color-smallText: color-mix(in srgb, transparent, var(--color-onSurface) 80%);
+		--color-codeContainer: var(--color-surfaceContainer2);
+		--codeBlock-padding: .5rem;
+	}
+
+	body {
+		display: grid;
+		grid-template-rows: min-content auto min-content;
+	}
+
+	h1 {
+		font-size: 2em;
+		font-weight: 600;
+		margin: .5em 0em;
+	}
+
+	h2 {
+		font-size: 1.5em;
+		font-weight: 600;
+		margin: .5em 0em;
+	}
+
+	h3 {
+		font-size: 1.25em;
+		font-weight: 600;
+		margin: .5em 0em;
+	}
+
+	a {
+		color: var(--color-primary-500);
+		text-decoration: underline;
+	}
+	
+	code {
+		padding: 0 .1em;
+		font-family: var(--monospaceFontFamily);
+		background: var(--color-codeContainer);
+	}
+
+	code-block, .code-block {
+		display: block;
+		padding: var(--codeBlock-padding);
+		font-family: var(--monospaceFontFamily);
+		background: var(--color-codeContainer);
+
+		white-space: nowrap;
+		overflow: auto;
+	}
+
+	details.app-collapsible-panel {
+		summary {
+			padding: .5em;
+		}
+	}
+
+	::-webkit-scrollbar {
+		width: 11px;
+		height: 11px;
+	}
+	::-webkit-scrollbar-button {
+		width: 0px;
+		height: 0px;
+	}
+	::-webkit-scrollbar-thumb {
+		background: #fff3;
+	}
+	::-webkit-scrollbar-thumb:hover {
+		background: #fff4;
+	}
+	::-webkit-scrollbar-thumb:active {
+		background: #fff5;
+	}
+	::-webkit-scrollbar-track {
+		background: transparent;
+	}
+	::-webkit-scrollbar-track:hover {
+		background: transparent;
+	}
+	::-webkit-scrollbar-track:active {
+		background: transparent;
+	}
+	::-webkit-scrollbar-corner {
+		background: transparent;
+	}
+	
+}
+
+
+console-, .console {
+	display: block;
+	font-family: var(--monospaceFontFamily);
+	overflow: auto;
+
+	> * {
+		white-space: pre-wrap;
+		padding: .2em 1em;
+		border-bottom: 1px solid var(--color-divider);
+
+		&[data-severity=warn] {
+			background: var(--color-yellow-800);
+			border-color: var(--color-yellow-500);
+			color: white;
+		}
+
+		&[data-severity=error] {
+			background: var(--color-red-900);
+			border-color: var(--color-red-500);
+			color: white;
+		}
+	}
+}
+
+
+code-viewer[data-lang=emcl] code-viewer-token {
+	&:hover {
+		background-color: var(--color-codeContainer-hover);
+	}
+
+	&[data-error] {
+		box-shadow: 0 0 .3em .1em red;
+	}
+
+	&[data-type=ILLEGAL] {
+		color: red;
+		text-decoration: underline;
+		font-weight: bold;
+	}
+
+	&[data-type=MCCOMMENT_LITERAL],
+	&[data-type=COMMENT] {
+		color: var(--color-lime-600);
+	}
+
+	&[data-type=IMPORT],
+	&[data-type=AS],
+	&[data-type=MCFUNCTION],
+	&[data-type=FOR],
+	&[data-type=WHILE],
+	&[data-type=IF],
+	&[data-type=EXECUTE],
+	&[data-type=RETURN] {
+		color: var(--color-yellow-500);
+	}
+
+	&[data-type=CONST],
+	&[data-type=FINAL],
+	&[data-type=TYPE] {
+		color: var(--color-sky-500);
+	}
+
+	&[data-type=ALIAS],
+	&[data-type=SCORE],
+	&[data-type=NBT] {
+		color: var(--color-sky-500);
+	}
+
+
+	&[data-type=NAMESPACED_ID],
+	&[data-type=SCOREBOARD_OBJECTIVE],
+	&[data-type=IDENTIFIER] {
+		color: var(--color-cyan-100); /* #c3ebee */
+	}
+
+
+	&[data-type=BOOLEAN_LITERAL],
+	&[data-type=STRING_LITERAL],
+	&[data-type=FLOAT_LITERAL],
+	&[data-type=INT_LITERAL] {
+		color: color-mix(in oklab, var(--color-red-600), #d16856 50%); /* #d16856 */
+	}
+
+	&[data-type=MCCOMMAND_LITERAL] {
+		color: var(--color-amber-500);
+	}
+}
+
+code-viewer.block {
+	display: flex;
+	font-family: var(--monospaceFontFamily);
+	background-color: var(--color-codeContainer);
+	padding: 0;
+}
+
+code-viewer-gutter {
+	flex: 0;
+	flex-basis: 1.5em;
+	text-align: right;
+	opacity: .55;
+	user-select: none;
+
+	padding: var(--codeBlock-padding) .75em;
+	> * {
+		--highlight-color: transparent;
+		padding: 0 .75em;
+		border-right: .3em solid var(--highlight-color);
+	}
+}
+
+code-viewer-content {
+	flex: 1;
+	white-space: pre;
+	padding: var(--codeBlock-padding) 0;
+	overflow-x: auto;
+	cursor: text;
+}
+
+app-optimizer {
+	display: grid;
+	grid-template-rows: 1fr min-content;
+
+	> :first-child {
+		overflow: auto;
+	}
+
+	> :last-child {
+		background: var(--background);
+		padding-top: .75em;
+
+		display: grid;
+		grid-template-columns: repeat(4, min-content) 1fr;
+	}
+}
+
+app-optimizer-button {
+	display: grid;
+	place-items: center;
+	width: 2.5em;
+	height: 2.5em;
+	cursor: pointer;
+	transition: opacity var(--default-transition-duration);
+
+	> * { font-size: 1.2em; }
+	&:hover { opacity: .85; }
+	&:active { opacity: .7; }
+
+	&[data-disabled] {
+		opacity: 0.2;
+		cursor: default;
+	}
+}
+
+/*@use "sass:color";
+
+$colors: (
+	"red"		:#ca4a4a,
+	"orange"	:#d89251,
+	"yellow"	:#ddbe11,
+	"lime"		:#94e22d,
+	"green"		:#3ec249,
+	"mint"		:#0bc093,
+	"cyan"		:#1cd1c8,
+	"cerulean"	:#43bbf3,
+	"blue"		:#40559b,
+	"purple"	:#5e1a86,
+	"magenta"	:#962790,
+);
+
+:root {
+	@each $name, $color in $colors {
+		@each $i in (0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000) {
+			$percent: ($i - 500) * .2%;
+			--#{$name}-#{$i}: #{color.scale($color, $lightness: $percent)};
+		}
+		--#{$name}: #{$color};
+	}
+}*

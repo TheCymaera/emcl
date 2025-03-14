@@ -93,7 +93,7 @@ function setPage(page: number) {
 
 			for (const removed of changes.removed) {
 				for (const instruction of removed.instructions) {
-					lhsCode.addGutterNote(lhsBlock.indexOf(instruction), removed.message, "var(--red)");
+					lhsCode.addGutterNote(lhsBlock.indexOf(instruction), removed.message, "var(--color-red-500)");
 				}
 
 			}

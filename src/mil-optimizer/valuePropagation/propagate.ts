@@ -1,6 +1,6 @@
 import * as mil from "mil";
-import { ReadonlyOccurrences } from "../utilities/Occurrences.js";
-import { ReadonlyValueTable } from "../utilities/ValueTable.js";
+import { type ReadonlyOccurrences } from "../utilities/Occurrences.js";
+import { type ReadonlyValueTable } from "../utilities/ValueTable.js";
 
 export function propagateInstruction(instruction: mil.Instruction, values: ReadonlyValueTable, referenceCount: ReadonlyOccurrences): mil.Instruction|undefined {
 	if (instruction instanceof mil.Assignment) {

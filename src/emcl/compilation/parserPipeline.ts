@@ -2,7 +2,7 @@ import { lexer } from "../grammar/lexer.js";
 import { Lexer } from "../../compiler-builder/Lexer.js";
 import { parser, treeBuilder } from "../grammar/parser.js";
 import { Parser } from "../../compiler-builder/Parser.js";
-import { ASTNode } from "../ast/astNode.js";
+import { type ASTNode } from "../ast/astNode.js";
 
 const ignoredTokens = new Set(["COMMENT", "WHITESPACE"]);
 
@@ -65,7 +65,7 @@ export function pipeline(source: string, fileName: string): ParseResult {
 		out.ast = ast;
 		return out;
 	} catch(e) {
-		out.treeBuilderError.push(e);
+		out.treeBuilderError.push(e instanceof Error ? e : new Error(`${e}`));
 		return out;
 	}
 }

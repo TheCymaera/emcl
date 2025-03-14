@@ -1,4 +1,3 @@
-import { Context } from "src/emcl/compilation/Compiler.js";
 import { Value } from "../astNode.js";
 import { StringValue } from "../typedValues/string.js";
 import * as mil from "mil";

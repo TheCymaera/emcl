@@ -10,7 +10,7 @@ npm install emcl -g
 ```
 
 ## Run CLI
-Create boilerplate project at working directory
+Create boilerplate project in working directory
 ```
 emcl init
 ```

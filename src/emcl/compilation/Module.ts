@@ -1,4 +1,4 @@
-import { ASTNode, Value } from "../ast/astNode.js";
+import { type ASTNode, Value } from "../ast/astNode.js";
 import { VoidValue } from "../ast/typedValues/void.js";
 import * as parserPipeline from "./parserPipeline.js";
 

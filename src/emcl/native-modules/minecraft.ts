@@ -1,11 +1,10 @@
-import { Value } from "src/emcl/ast/astNode.js";
-import { VoidValue } from "src/emcl/ast/typedValues/void.js";
 import { Context } from "../compilation/Compiler.js";
 import { Module } from "../compilation/Module.js";
 import * as mil from "mil";
-import { StringValue } from "src/emcl/ast/typedValues/string.js";
-import { FunctionParameter } from "../ast/definitions.js";
 import { FunctionParameterMap } from "../compilation/utilities.js";
+import { Value } from "../ast/astNode.js";
+import { StringValue } from "../ast/typedValues/string.js";
+import { VoidValue } from "../ast/typedValues/void.js";
 
 export const minecraftModule = Module.empty();
 

@@ -27,7 +27,7 @@ export function substituteArithmetic(arithmetic: mil.Arithmetic) {
 			case "*": return new mil.Arithmetic(arithmetic.rhs, "*", arithmetic.lhs);
 			
 			// C / x = x * 1/C
-			case "-": return new mil.Arithmetic(arithmetic.rhs, "*", new mil.NumberConstant(1/arithmetic.lhs.value, arithmetic.lhs.dataType));
+			case "/": return new mil.Arithmetic(arithmetic.rhs, "*", new mil.NumberConstant(1/arithmetic.lhs.value, arithmetic.lhs.dataType));
 		}
 	}
 

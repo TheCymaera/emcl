@@ -6,7 +6,7 @@ import { NumberType, NumberValue } from "../ast/typedValues/number.js";
 import { StringType, StringValue } from "../ast/typedValues/string.js";
 import { VoidType, VoidValue } from "../ast/typedValues/void.js";
 import * as mil from "mil";
-import { Type } from "../ast/astNode.js";
+import { Type, type ASTNode } from "../ast/astNode.js";
 import { NBTReference, ScoreReference } from "../ast/references.js";
 
 const grammar = new GrammarBuilder<string, string, string>();
@@ -99,7 +99,7 @@ grammar.define("complete_expression", ["or_expression"]);
 grammar.define("complete_expression", ["or_expression","=","complete_expression"],([dst,,src])=>new Assignment(dst,"=",src));
 grammar.define("complete_expression", ["or_expression","COMPOUND_ASSIGNMENT_OPERATOR","complete_expression"],([dst,op,src])=>new Assignment(dst,op,src));
 
-const reduceBinaryOp = ([lhs,op,rhs])=>new BinaryOp(lhs,op,rhs);
+const reduceBinaryOp = ([lhs,op,rhs]: [ASTNode, string, ASTNode])=>new BinaryOp(lhs,op,rhs);
 grammar.define("or_expression", ["and_expression"]);
 grammar.define("or_expression", ["or_expression","OR_OPERATOR","and_expression"], reduceBinaryOp);
 

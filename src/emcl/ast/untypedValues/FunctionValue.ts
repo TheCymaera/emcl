@@ -1,7 +1,7 @@
-import { Context } from "src/emcl/compilation/Compiler.js";
 import { Type, Value } from "../astNode.js";
 import { FunctionParameterMap } from "../../compilation/utilities.js";
 import * as mil from "mil";
+import type { Context } from "../../compilation/Compiler.js";
 
 export class FunctionValue extends Value {
 	constructor(

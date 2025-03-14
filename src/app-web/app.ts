@@ -1,7 +1,6 @@
-import { Compiler } from "emcl";
+import { Compiler, ProjectGenerator } from "emcl";
 import { AggregateFileSystem, FetchFileSystem, FSAFileSystem } from "file-system";
-import { ProjectGenerator } from "src/emcl/utilities/ProjectGenerator.js";
-import { ReadonlyURI } from "../file-system/URI.js";
+import { type ReadonlyURI } from "../file-system/URI.js";
 import { Console } from "./ui/components/Console.js";
 
 export const console = new Console;
@@ -28,12 +27,12 @@ export const compiler = new Compiler();
 compiler.console = console;
 compiler.fileSystem = fileSystem;
 
-export const projectGenerator = new ProjectGenerator();
+export const projectGenerator = new ProjectGenerator;
 projectGenerator.console = console;
 projectGenerator.fileSystem = fileSystem;
 
 export async function openLoadFSAProjectDialog() {
-	if (!window["showDirectoryPicker"]) {
+	if (!("showDirectoryPicker" in  window)) {
 		alert(fsaNoSupportMessage);
 		return;
 	}

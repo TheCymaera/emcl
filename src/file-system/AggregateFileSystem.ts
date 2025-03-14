@@ -1,19 +1,11 @@
 import { FileSystem } from "./FileSystem.js";
-import { ReadonlyURI } from "./URI.js";
+import { type ReadonlyURI } from "./URI.js";
 
 export class AggregateFileSystem implements FileSystem {
 	readonly schemes: Map<string, FileSystem> = new Map;
 
-	readFile(uri: ReadonlyURI): Promise<ArrayBuffer> {
-		return this._getFileSystem(uri).readFile(uri);
-	}
-
 	createDirectory(uri: ReadonlyURI): Promise<void> {
 		return this._getFileSystem(uri).createDirectory(uri);
-	}
-	
-	writeFile(uri: ReadonlyURI, content: ArrayBuffer): Promise<void> {
-		return this._getFileSystem(uri).writeFile(uri, content);
 	}
 	
 	readTextFile(uri: ReadonlyURI): Promise<string> {

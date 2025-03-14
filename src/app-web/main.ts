@@ -1,4 +1,5 @@
 import * as app from "./app.js";
+import "./main.css";
 window["app"] = app;
 console.log(`For debugging, see "window.app" and "window.compilation"`);
 

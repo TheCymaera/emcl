@@ -1,7 +1,6 @@
 import { CodeViewer } from "../components/CodeViewer.js";
 import { lexer } from "emcl";
-// @ts-expect-error
-import html from "./news.html";
+import html from "./news.html?raw";
 
 export const element = document.createElement("div");
 element.style.padding = "1em";

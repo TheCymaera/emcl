@@ -1,6 +1,6 @@
+#!/usr/bin/env node
 import { AggregateFileSystem, NodeFileSystem, URI } from "file-system";
-import { Compiler } from "emcl";
-import { ProjectGenerator } from "src/emcl/utilities/ProjectGenerator.js";
+import { Compiler, ProjectGenerator } from "emcl";
 
 const workingDir = new URI("file").appendString(process.cwd() + "/")!;
 

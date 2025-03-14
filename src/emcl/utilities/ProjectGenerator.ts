@@ -1,11 +1,12 @@
 import { Config } from "../compilation/Config.js";
-import { Console } from "../compilation/Compiler.js";
-import { FileSystem, ReadonlyURI } from "file-system";
+import { type Console } from "../compilation/Compiler.js";
+import { FileSystem, type ReadonlyURI } from "file-system";
 
 export class ProjectGenerator {
-	console: Console;
-	fileSystem: FileSystem;
-	uri: ReadonlyURI;
+	// TODO: Replace this
+	console!: Console;
+	fileSystem!: FileSystem;
+	uri!: ReadonlyURI;
 
 	async generate(config?: Config) {
 		if (!this.uri) return this.console.error(`No project loaded.`);
@@ -22,7 +23,7 @@ export class ProjectGenerator {
 			for (const [path, content] of files) {
 				const fileURI = this.uri.clone().appendString(path);
 				if (content !== undefined) {
-					await this.fileSystem.readFile(fileURI).catch(async ()=>{
+					await this.fileSystem.readTextFile(fileURI).catch(async ()=>{
 						this.console.log(`Creating file: ${fileURI}`);
 						await this.fileSystem.writeTextFile(fileURI, content);
 					});
@@ -33,7 +34,7 @@ export class ProjectGenerator {
 			}
 			this.console.log(`Complete!`);
 		} catch(e) {
-			this.console.error(`Unexpected error:\n` + e.message);
+			this.console.error(`Unexpected error:\n` + (e instanceof Error ? e.message : e));
 			throw e;
 		}
 	}

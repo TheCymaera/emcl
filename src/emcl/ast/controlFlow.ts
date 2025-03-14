@@ -1,5 +1,5 @@
 import { Context } from "../compilation/Compiler.js";
-import { ASTNode, Value } from "./astNode.js";
+import { type ASTNode, Value } from "./astNode.js";
 import { VoidValue } from "./typedValues/void.js";
 import * as mil from "mil";
 import { StringValue } from "./typedValues/string.js";

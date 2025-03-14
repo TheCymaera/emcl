@@ -49,7 +49,7 @@ export class NumberValue extends Value {
 
 	assignToConst(ctx: Context, type: Type) {
 		if (type instanceof NumberType) return this;
-		return this.assignToConst(ctx, type);
+		return super.assignToConst(ctx, type);
 	}
 
 	assignToVariable(ctx: Context, dst: Value): void {

@@ -2,13 +2,13 @@ import { Parser } from "./Parser.js";
 import { TreeBuilder } from "./TreeBuilder.js";
 
 export class GrammarBuilder<Leaf = string, Branch = string, Token = any> {
-	define(lhs: Branch, rhs: (Leaf|Branch)[], nodeConstructor?: TreeBuilder.NodeConstructor<Token, any>): void {
+	define<T extends (Token|any)[]>(lhs: Branch, rhs: (Leaf|Branch)[], nodeConstructor?: ((children: T)=>any)): void {
 		this._rules.push({lhs,rhs});
 		this._nonTerminals.add(lhs);
 		this._nodes.add(lhs);
 		for (const node of rhs) this._nodes.add(node);
 		this._nodeConstructors.push(
-			nodeConstructor || 
+			(nodeConstructor as TreeBuilder.NodeConstructor<Token,any>) || 
 			(rhs.length === 1 ? GrammarBuilder.REDUCE_FIRST : GrammarBuilder.REDUCE_ARRAY)
 		);
 	}

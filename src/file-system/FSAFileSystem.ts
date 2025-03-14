@@ -1,5 +1,5 @@
 import { FileSystem } from "./FileSystem.js";
-import { ReadonlyURI, URI } from "./URI.js";
+import { type  ReadonlyURI, URI } from "./URI.js";
 
 export class FSAFileSystem extends FileSystem {
 	scheme = "fsa";
@@ -42,13 +42,13 @@ export class FSAFileSystem extends FileSystem {
 		return undefined;
 	}
 
-	async readFile(uri: ReadonlyURI) {
+	async readTextFile(uri: ReadonlyURI) {
 		const handle = await this._getFile(uri, false);
 		const file = await handle.getFile();
-		return await file.arrayBuffer();
+		return await file.text();
 	}
 
-	async writeFile(uri: ReadonlyURI, content: ArrayBuffer) {
+	async writeTextFile(uri: ReadonlyURI, content: string) {
 		const handle = await this._getFile(uri, true);
 		const writable = await handle.createWritable();
 		await writable.write(content);

@@ -1,4 +1,4 @@
-import { ASTNode, Type, Value } from "./astNode.js";
+import { type ASTNode, Type, Value } from "./astNode.js";
 import { Context } from "../compilation/Compiler.js";
 import { NumberType, NumberValue } from "./typedValues/number.js";
 import * as mil from "mil";

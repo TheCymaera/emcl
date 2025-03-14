@@ -2,7 +2,7 @@ import { DataType } from "./DataType.js";
 import { GenerationContext } from "./Program.js";
 
 export abstract class Score {
-	readonly dataType: DataType.Int;
+	readonly dataType = DataType.Int;
 	abstract scorePointer(ctx: GenerationContext): string;
 	abstract displayText(): string;
 	abstract sameTargetAs(other: unknown): boolean;

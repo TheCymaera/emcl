@@ -1,6 +1,6 @@
 import { Goto, MCCommand } from "./controlFlow.js";
 import { DataType, NumberType } from "./DataType.js";
-import { Instruction } from "./instructions.js";
+import { type Instruction } from "./instructions.js";
 import { ScorePointer, Score, ScoreVariable } from "./Score.js";
 import * as codeGeneration from "./codeGeneration/index.js";
 import { NBT, NBTPointer, NBTVariable } from "./NBT.js";

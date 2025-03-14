@@ -1,5 +1,5 @@
 import * as mil from "mil";
-import { ReadonlyStoreMap, StoreMap } from "./StoreMap.js";
+import { type ReadonlyStoreMap, StoreMap } from "./StoreMap.js";
 
 export type ReadonlyOccurrences = ReadonlyStoreMap<number>;
 export type Occurrences = StoreMap<number>;

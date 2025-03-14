@@ -1,8 +1,7 @@
 import { CodeViewer } from "../components/CodeViewer.js";
 import { lexer } from "emcl";
 import { fa5_brands_youtube } from "fontawesome-svgs";
-// @ts-expect-error
-import html from "./info.html";
+import html from "./info.html?raw";
 
 export const element = document.createElement("div");
 element.style.padding = "1em";

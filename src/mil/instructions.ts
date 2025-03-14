@@ -33,7 +33,7 @@ export class Assignment {
 
 export type Value = NBT|Score|Arithmetic|Compare|Constant;
 export namespace Value {
-	export function contains(lhs: Value, rhs: Value) {
+	export function contains(lhs: Value, rhs: Value): boolean {
 		if (lhs instanceof Score) return lhs.sameTargetAs(rhs);
 		if (lhs instanceof NBT) return lhs.sameTargetAs(rhs);
 		if (lhs instanceof Arithmetic) return contains(lhs.lhs, rhs) || contains(lhs.rhs, rhs);
@@ -45,7 +45,7 @@ export namespace Value {
 		return value instanceof Compare || value instanceof Arithmetic;
 	}
 
-	export function getReferences(value: Value) {
+	export function getReferences(value: Value): (Score|NBT)[] {
 		if (value instanceof Score) return [value];
 		if (value instanceof NBT) return [value];
 		if (value instanceof Arithmetic) return [...getReferences(value.lhs), ...getReferences(value.rhs)];

@@ -1,31 +1,29 @@
 {
 	"name": "emcl",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"description": "A language designed to compile to mcfunction files.",
 	"type": "module",
 	"bin": {
-		"emcl": "./app-cli/dst/main.js"
+		"emcl": "./dist/cli/main.js"
 	},
 	"files": [
-		"./app-cli/**"
+		"./dist/cli/**"
 	],
 	"scripts": {
-		"watch": "rollup -c --w & sass src/app-web/main.scss:app-web/dst/main.css --style=compressed --watch"
+		"dev": "vite dev",
+		"build:web": "vite build",
+		"build:cli": "bun build --outfile=dist/cli/main.js --target=node --minify src/app-cli/main.ts"
 	},
 	"author": "Cymaera",
 	"license": "MIT",
 	"devDependencies": {
-		"@rollup/plugin-node-resolve": "^13.0.4",
-		"@rollup/plugin-terser": "^0.4.4",
-		"@rollup/plugin-typescript": "^8.2.5",
-		"@types/node": "^18.11.9",
-		"fontawesome-svgs": "^1.0.0",
-		"rollup": "^2.56.3",
-		"rollup-plugin-add-shebang": "^0.3.1",
-		"rollup-plugin-string": "^3.0.0",
-		"sass": "^1.70.0",
-		"tslib": "^2.6.2",
-		"typescript": "^5.3.3"
+		"@tailwindcss/vite": "^4.0.14",
+		"@types/node": "^18.19.80",
+		"fontawesome-svgs": "^1.0.3",
+		"typescript": "^5.8.2",
+		"vite": "^6.2.2",
+		"vite-tsconfig-paths": "^5.1.4",
+		"tailwindcss": "^4.0.14"
 	},
 	"repository": {
 		"type": "git",

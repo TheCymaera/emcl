@@ -1,5 +1,5 @@
 import { FileSystem } from "./FileSystem.js";
-import { ReadonlyURI, URI } from "./URI.js";
+import { type ReadonlyURI } from "./URI.js";
 
 export class NodeFileSystem extends FileSystem {
 	async fs() {
@@ -14,13 +14,17 @@ export class NodeFileSystem extends FileSystem {
 		return await this.fs().then(()=>true).catch(()=>false);
 	}
 
-	async readFile(uri: ReadonlyURI): Promise<ArrayBuffer> {
-		return (await this.fs()).readFile(this.#filePath(uri));
+	async readTextFile(uri: ReadonlyURI): Promise<string> {
+		const fs = await this.fs();
+		const filePath = this.#filePath(uri);
+		return await fs.readFile(filePath, { encoding: "utf8" });
 	}
-	
-	async writeFile(uri: ReadonlyURI, content: ArrayBuffer): Promise<void> {
-		await this.createDirectory(uri.clone().appendString(".")).catch(()=>void 0);
-		await (await this.fs()).writeFile(this.#filePath(uri), new TextDecoder().decode(content));
+
+	async writeTextFile(uri: ReadonlyURI, content: string): Promise<void> {
+		const fs = await this.fs();
+		const filePath = this.#filePath(uri);
+		await fs.mkdir(filePath.substring(0, filePath.lastIndexOf("/")), { recursive: true });
+		await fs.writeFile(filePath, content, { encoding: "utf8" });
 	}
 
 	async createDirectory(uri: ReadonlyURI): Promise<void> {

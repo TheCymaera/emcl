@@ -1,6 +1,6 @@
 import * as linter from "../linter/index.js";
-import { ReadonlyURI, URI } from "file-system";
-import { Console } from "./Compiler.js";
+import { type ReadonlyURI, URI } from "file-system";
+import { type Console } from "./Compiler.js";
 
 export interface Config {
 	entry: string;
@@ -46,7 +46,9 @@ export namespace Config {
 			functionNamespace: `${projectName}:internal/`,
 			nbtStorageNamespace: `${projectName}:internal/`,
 			
-			onLoad: [],
+			onLoad: [
+				`${projectName}:init`,
+			],
 			onTick: [],
 			packMeta: {
 				"pack": {
