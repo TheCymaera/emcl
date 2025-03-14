@@ -8,7 +8,8 @@ const root = path.resolve(__dirname, "src/app-web");
 export default defineConfig({
 	root: root,
 	publicDir: path.resolve(__dirname, "static"),
-
+	
+	base: "./",
 	build: {
 		outDir: path.resolve(__dirname, "dist/web-app"),
 		emptyOutDir: true,
