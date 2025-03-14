@@ -4,7 +4,7 @@
 </div>
 <br/>
 
-<h1 style="margin-top: 0;">EMCL <small>Alpha 2.0.2</small></h1>
+<h1 class="mt-0">EMCL <small>Alpha 2.0.2</small></h1>
 
 <h2>Welcome!</h2>
 <p>
@@ -25,7 +25,7 @@
 </p>
 <br />
 <h2>Examples:</h2>
-<div style="display: grid; grid-template-columns: 1fr 1fr; grid-gap: 1em;">
+<div class="grid gap-4 grid-cols-2">
 	<div>
 		<h3>Animated 3D Grapher</h3>
 		<a href="https://www.youtube.com/watch?v=sY0uiRyFe6s" target="_blank" class="yt-thumbnail text-inherit">
@@ -140,7 +140,7 @@ NPM: <a href="https://www.npmjs.com/package/emcl">EMCL</a> (Experimental)<br />
 	The compiler will generate one for you when you open a folder.
 	The file must be named <code>emcl.config.json</code> and be located in the project root.
 </p>
-<code-block class="emcl" style="white-space: pre;">{
+<code-block class="emcl pre">{
 	// The program's entry file.
 	// Though not currently enforced, EMCL files should end in ".emcl".
 	"entry": "./main.emcl",
@@ -192,7 +192,7 @@ NPM: <a href="https://www.npmjs.com/package/emcl">EMCL</a> (Experimental)<br />
 <br />
 <h3>Comments</h3>
 <p>Comments are ignored by the compiler. They are useful for adding notes to your code.</p>
-<code-block class="emcl" style="white-space: pre">// This is a single-line comment.
+<code-block class="emcl pre">// This is a single-line comment.
 
 /*
 	This is a multi-line comment.
@@ -205,7 +205,7 @@ NPM: <a href="https://www.npmjs.com/package/emcl">EMCL</a> (Experimental)<br />
 <p>
 	Minecraft commands are written using this syntax:
 </p>
-<code-block class="emcl" style="white-space: pre">/tellraw @a "Hello World!"</code-block>
+<code-block class="emcl pre">/tellraw @a "Hello World!"</code-block>
 <br />
 <h3>Variables</h3>
 <p>
@@ -221,7 +221,7 @@ NPM: <a href="https://www.npmjs.com/package/emcl">EMCL</a> (Experimental)<br />
 		<li><code>const string</code></li>
 	</ul>
 </p>
-<code-block class="emcl" style="white-space: pre">// Declare an integer variable
+<code-block class="emcl pre">// Declare an integer variable
 int pointsScored = 0;
 
 // Assign a new value to variable.
@@ -231,7 +231,7 @@ pointsScored = 1;</code-block>
 <p>
 	EMCL uses mathematical operators common to most programming languages.
 </p>
-<code-block class="emcl" style="white-space: pre">result = (x + y) * 5 / 3;</code-block>
+<code-block class="emcl pre">result = (x + y) * 5 / 3;</code-block>
 
 <p>
 	Expression operators:
@@ -270,14 +270,14 @@ pointsScored = 1;</code-block>
 <p>
 	You can read and write from scoreboards and NBTs using the following syntax.
 </p>
-<code-block class="emcl" style="white-space: pre">int x = 0;
+<code-block class="emcl pre">int x = 0;
 score "objective" "player" = x;
 double nbt "entity" "@s" "Pos[0]" = x;</code-block>
 <br/>
 <p>
 	For common targets, you may define an alias.
 </p>
-<code-block class="emcl" style="white-space: pre">alias nearestPlayerScore (score "pointsScored" "@p");
+<code-block class="emcl pre">alias nearestPlayerScore (score "pointsScored" "@p");
 nearestPlayerScore += 1;</code-block>
 <br />
 
@@ -285,7 +285,7 @@ nearestPlayerScore += 1;</code-block>
 <p>
 	An if-statement runs a block of code if a condition is satisfied (does not return 0).
 </p>
-<code-block class="emcl" style="white-space: pre">if (pointsScored == 10) {
+<code-block class="emcl pre">if (pointsScored == 10) {
 	/tellraw @a "You scored 10 points! You Win!";
 }</code-block>
 <br/>
@@ -294,7 +294,7 @@ nearestPlayerScore += 1;</code-block>
 <p>
 	A while-loop will run a block of code repeatedly as long as a condition is satisfied.
 </p>
-<code-block class="emcl" style="white-space: pre">// Say "Hello World" 10 times
+<code-block class="emcl pre">// Say "Hello World" 10 times
 int i = 0;
 while (i &lt; 10) {
 	/tellraw @a "Hello World!"
@@ -311,7 +311,7 @@ while (i &lt; 10) {
 	A for-loop is shorthand for a while-loop.
 	It contains an <i>initializer</i>, a <i>condition</i>, and an <i>afterthought</i>.
 </p>
-<code-block class="emcl" style="white-space: pre">for (int i = 0; i &lt; 10; i += 1) {
+<code-block class="emcl pre">for (int i = 0; i &lt; 10; i += 1) {
 	/tellraw @a "Hello World!"
 }
 // This is just like the previous example, except all 
@@ -323,7 +323,7 @@ while (i &lt; 10) {
 <p>
 	An execute-statement runs a block of code using an execute command.
 </p>
-<code-block class="emcl" style="white-space: pre">execute "as @a at @s" {
+<code-block class="emcl pre">execute "as @a at @s" {
 	/tellraw @s "Hello World!"
 }
 
@@ -341,7 +341,7 @@ execute ("as @a at @s") {
 <p>
 	Functions allow you to reuse code in different parts of your program.
 </p>
-<code-block class="emcl" style="white-space: pre">double squareNumber(double value) {
+<code-block class="emcl pre">double squareNumber(double value) {
 	return value * value;
 }
 
@@ -359,7 +359,7 @@ int y = squareNumber(3); // y = 9
 	You may declare a block of code as an mcfunction using the following syntax.<br />
 	Note: Recursion is not supported.
 </p>
-<code-block class="emcl" style="white-space: pre">mcfunction "namespace:id" {
+<code-block class="emcl pre">mcfunction "namespace:id" {
 	/tellraw @a "Hello World!";
 }</code-block>
 <br/>
@@ -370,7 +370,7 @@ int y = squareNumber(3); // y = 9
 	Variables are scoped to each module, but there will be ways
 	to share variables in the future.
 </p>
-<code-block class="emcl" style="white-space: pre">// Paths are relative to the current module.
+<code-block class="emcl pre">// Paths are relative to the current module.
 import "./module.emcl"
 
 // You can also use URLs
@@ -382,7 +382,7 @@ import "https://www.example.com/module.emcl";</code-block>
 <p>
 	Variables may share the same name as long as they are declared in different scopes.
 </p>
-<code-block class="emcl" style="white-space: pre">const string player = "Tom";
+<code-block class="emcl pre">const string player = "Tom";
 player; // refers to Tom
 {
 	const string player = "Sam";

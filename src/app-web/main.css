@@ -44,7 +44,7 @@
 
 		--color-divider: color-mix(in srgb, transparent, var(--color-onSurface) 20%);
 		--color-containerBorder: color-mix(in srgb, transparent, var(--color-onSurface) 20%);
-		--color-smallText: color-mix(in srgb, transparent, var(--color-onSurface) 80%);
+		--color-smallText: color-mix(in srgb, transparent, var(--color-onSurface) 60%);
 		--color-codeContainer: var(--color-surfaceContainer2);
 		--codeBlock-padding: .5rem;
 	}
@@ -75,6 +75,11 @@
 	a {
 		color: var(--color-primary-500);
 		text-decoration: underline;
+	}
+
+	small {
+		font-size: .8em;
+		color: var(--color-smallText);
 	}
 	
 	code {
