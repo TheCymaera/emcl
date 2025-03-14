@@ -1,9 +1,9 @@
 import * as app from "./app.js";
 import "./main.css";
-window["app"] = app;
-console.log(`For debugging, see "window.app" and "window.compilation"`);
 
-app.compiler.onLoadConfig.add((compilation)=>window["compilation"] = compilation);
+console.log(`For debugging, see "window.app" and "window.compilation"`);
+Object.assign(window, { app })
+app.compiler.onLoadConfig.add((compilation)=>Object.assign(window, { compilation }));
 
 app.onLoadProject.add((uri)=>{
 	app.openTab(2);
