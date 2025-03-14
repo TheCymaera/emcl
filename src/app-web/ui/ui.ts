@@ -12,7 +12,7 @@ document.body.innerHTML = /*html*/`
 </div>
 <div id="panelContainer" class="relative [&>*]:absolute [&>*]:inset-0"></div>
 <div class="flex h-10 bg-surfaceContainer text-onSurfaceContainer">
-	<div class="grid place-items-center cursor-pointer transition-color w-10" id="install"    title="Install">${fa5_solid_download}</div>
+	<div class="${buttonVariants.inkWell} grid place-items-center w-10" id="install"    title="Install">${fa5_solid_download}</div>
 	
 	<span class="flex-1"></span>
 
